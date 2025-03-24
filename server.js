@@ -15,7 +15,7 @@ const allowedUser2 = process.env.allowedUser2;
 const allowedUser3 = process.env.allowedUser3;
 const allowedPass = process.env.allowedPass;
 
-app.use(express.static('public'));
+app.use(express.static(process.env.STATIC));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 app.use(cors());
@@ -53,6 +53,7 @@ const auth = new google.auth.GoogleAuth({
   credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS), 
   scopes: ["https://www.googleapis.com/auth/drive"],
 });
+
 const drive = google.drive({ version: "v3", auth });
 
 async function makeFilePublic(fileId) {
@@ -64,9 +65,8 @@ async function makeFilePublic(fileId) {
     },
   });
 
-  return `https://drive.google.com/uc?id=${fileId}`; 
+  return `https://lh3.googleusercontent.com/d/${fileId}=w1000`;
 }
-
 app.get('/', (req, res) => {
     res.sendFile(__dirname + process.env.MAIN);
 });
@@ -75,11 +75,11 @@ app.post("/login", async (req, res) => {
     try {
         let redirectUrl;
         if (user === allowedUser1 && password === allowedPass) {
-          redirectUrl = "/privateMain.html";
+          redirectUrl = process.env.PRIVATE_MAIN;
         } else if (user === allowedUser2 && password === allowedPass) {
-          redirectUrl = "/creatente.html";
+          redirectUrl = process.env.CREATENTE;
             } else if (user === allowedUser3 && password === allowedPass) {
-            redirectUrl = "/publicMain.html";
+            redirectUrl = process.env.PUBLIC_MAIN;
                 }else {
                     return res
                         .status(403)
@@ -127,7 +127,7 @@ app.post('/posthdv', upload.single("photo"), async (req, res) => {
     });
     await newResume.save();
 
-    res.json({ message: "Upload successful", success: true, redirectUrl: "/thanks.html" });
+    res.json({ message: "Upload successful", success: true, redirectUrl: process.env.THANKS });
 
   } catch (error) {
     console.error("Storage Upload Error:", error);
@@ -206,7 +206,7 @@ app.post('/postEva', async (req, res) => {
     });
     await newEvaluation.save();
 
-    res.json({ message: "Upload successful",success: true, redirectUrl: "/thanks2.html"});
+    res.json({ message: "Upload successful",success: true, redirectUrl: process.env.THANKS2});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -236,10 +236,10 @@ app.get("/stats", async (req, res) => {
   }
 });
 app.post("/cDocente", (req, res) => {
-  res.json({ success: true, redirectUrl: "/userCreation.html" });
+  res.json({ success: true, redirectUrl: process.env.USER_CREATION });
 });
 app.post("/rPrivate", (req, res) => {
-  res.json({ success: true, redirectUrl: "/results.html" });
+  res.json({ success: true, redirectUrl: process.env.RESULTS });
 });
 app.get("/rPage", (req, res) => {
   const name = req.query.name; 
