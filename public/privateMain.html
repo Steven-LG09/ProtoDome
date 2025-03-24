@@ -35,7 +35,7 @@
           evaPage();
         });
         
-        fetch('http://localhost:9000/qualiMe', {
+        fetch('https://protodome.onrender.com/qualiMe', {
             method: "GET",
         })
         .then((response) => {
@@ -63,7 +63,7 @@
             list.appendChild(li);
             });
         })
-        fetch('http://localhost:9000/count', {
+        fetch('https://protodome.onrender.com/count', {
             method: "GET",
         })
         .then(response => response.json())

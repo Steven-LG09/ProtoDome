@@ -3,7 +3,7 @@ export async function login() {
     const password = document.getElementById("password").value;
     loadingMessage.style.display = "block";
   
-    const response = await fetch('http://localhost:9000/login', {
+    const response = await fetch('https://protodome.onrender.com/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user, password })
@@ -30,7 +30,7 @@ export async function addData() {
   formData.append("name", name);
   formData.append("photo", photo);
 
-  const response = await fetch('http://localhost:9000/posthdv', {
+  const response = await fetch('https://protodome.onrender.com/posthdv', {
     method: "POST",
     body: formData,
   });
@@ -77,7 +77,7 @@ export async function addEva() {
     comment
   };
 
-  const response = await fetch('http://localhost:9000/postEva', {
+  const response = await fetch('https://protodome.onrender.com/postEva', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export async function addEva() {
 }
 export async function createPage(){
   try {
-    const response = await fetch('http://localhost:9000/cDocente', { 
+    const response = await fetch('https://protodome.onrender.com/cDocente', { 
       method: 'POST',
     });
     const data = await response.json();
@@ -110,7 +110,7 @@ export async function createPage(){
 }
 export async function evaPage(){
   try {
-    const response = await fetch('http://localhost:9000/rPrivate', { 
+    const response = await fetch('https://protodome.onrender.com/rPrivate', { 
       method: 'POST',
     });
     const data = await response.json();
@@ -125,7 +125,7 @@ export async function evaPage(){
 }
 async function rePage(name){
   try {
-      const response = await fetch(`http://localhost:9000/rPage?name=${encodeURIComponent(name)}`, { 
+      const response = await fetch(`https://protodome.onrender.com/rPage?name=${encodeURIComponent(name)}`, { 
           method: 'GET',
           headers: { 'Content-Type': 'application/json',}
       });

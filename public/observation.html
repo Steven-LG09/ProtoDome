@@ -29,7 +29,7 @@
             document.getElementById('nameDisplay4').innerText = "Welcome, Guest!";
         }
         async function fetchResults() {
-            const res = await fetch("http://localhost:9000/stats",{
+            const res = await fetch("https://protodome.onrender.com/stats",{
                 method: "GET",
             });
             const data = await res.json();

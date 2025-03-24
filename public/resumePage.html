@@ -22,7 +22,7 @@
         const name = getQueryParam("name");
 
         if (name) {
-            fetch(`http://localhost:9000/get-resume?name=${encodeURIComponent(name)}`)
+            fetch(`https://protodome.onrender.com/get-resume?name=${encodeURIComponent(name)}`)
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
