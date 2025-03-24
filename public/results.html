@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation Results</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Images/assessment.png" type="image/png">
+</head>
+<body class="body2">
+    <h1 class="mainName">DOME</h1>
+    <h3 class="descrip">Desempeño, Observación, Medición y Evaluación</h3>
+    <h3 class="secondName2">Resultados de Evaluación Docente</h3>
+    <h4 class="titleMain" style="text-align: center;">Número de Evaluaciones Realizadas: <span id="docCount2">Loading...</span></h4>
+    <div id="list3" class="resultsEva"></div>
+    <br>
+    <footer>Created by: Steve LóGi</footer>
+    <script>
+        fetch('http://localhost:9000/qualiMe',{
+            method: "GET",
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch resumes");
+            }
+            return response.json();
+            })
+        .then((data) => {
+            const list = document.getElementById("list3");
+            
+            data.forEach(product => {
+            const li = document.createElement("li");
+            let fileUrl = product.fileUrl.includes("drive.google.com") 
+                ? `https://drive.google.com/thumbnail?id=${product.fileUrl.split('id=')[1]}&sz=w1000` 
+                : product.fileUrl; 
+            const myhtml = ` 
+                <div class="resultsBlock">
+                    <div class="photoBlock">
+                        <img class="resultsPhoto" src="${fileUrl}" alt="proPhoto">
+                    </div>
+                    <div class="nameBlock">
+                        <p class="resultsName">${product.userName}</p>
+                    </div>
+                    <div class="mobileBlock">
+                        <div class="noteBlock">
+                        <button class="resultsButton" onclick="staPage('${product.userName}')">
+                            <img src="Images/qualification.png">
+                        </button>
+                        </div>
+                        <div class="messagesBlock">
+                        <button class="resultsButton" onclick="obsPage('${product.userName}')">
+                            <img src="Images/comments.png">
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            li.innerHTML = myhtml;
+            list.appendChild(li);
+            });
+        })
+        async function staPage(name) {
+            try {
+                const response = await fetch(`http://localhost:9000/sPage?name=${encodeURIComponent(name)}`, { 
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json',}
+                });
+        
+                const data = await response.json();
+                if (data.success) {
+                    window.location.href = data.redirectUrl;
+                } else {
+                    alert("Access denied.");
+                }
+            } catch (error) {
+                console.error("Error redirecting:", error);
+            }
+        }
+        window.staPage = staPage;
+        async function obsPage(name){
+            try {
+                const response = await fetch(`http://localhost:9000/oPage?name=${encodeURIComponent(name)}`, { 
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json',}
+                });
+        
+                const data = await response.json();
+                if (data.success) {
+                    window.location.href = data.redirectUrl;
+                } else {
+                    alert("Access denied.");
+                }
+            } catch (error) {
+                console.error("Error redirecting:", error);
+            }
+        }
+        window.obsPage = obsPage;
+
+        fetch('http://localhost:9000/count2',{
+            method: "GET",
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("docCount2").innerText = data.count;
+        })
+        .catch(error => {
+            console.error("Error fetching document count:", error);
+            document.getElementById("docCount2").innerText = "Error";
+        });
+    </script>
+</body>
+</html>

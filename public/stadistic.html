@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stadistics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Images/assessment.png" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="body3" id="content">
+    <h1 class="mainName">DOME</h1>
+    <h3 class="descrip">Desempeño, Observación, Medición y Evaluación</h3>
+    <h3 class="titleMain">Sistema Estadístico de la Evaluación del Docente:</h3>
+    <h2 class="titleMain" id="nameDisplay3">Nombre Docente</h2>
+    <table>
+        <tr>
+            <th class="column1">Número</th>
+            <th class="column2">Pregunta</th>
+        </tr>
+        <tr>
+            <td>Q1</td>
+            <td>¿El curso contó con objetivos claros, contenidos bien organizados y criterios de evaluación definidos desde el inicio?</td>
+        </tr>
+        <tr>
+            <td>Q2</td>
+            <td>¿Se respetó la planificación presentada en el programa durante el desarrollo de las clases?</td>
+        </tr>
+        <tr>
+            <td>Q3</td>
+            <td>¿Los materiales y recursos recomendados (lecturas, artículos, videos, etc.) facilitaron el aprendizaje?</td>
+        </tr>
+        <tr>
+            <td>Q4</td>
+            <td>¿El docente utilizó diversas actividades (clases en vivo, talleres, seminarios, etc.) que enriquecieron el proceso de aprendizaje?</td>
+        </tr>
+        <tr>
+            <td>Q5</td>
+            <td>¿El docente hizo un uso efectivo de las tecnologías (internet, aplicaciones, videos, etc.) para apoyar el aprendizaje?</td>
+        </tr>
+        <tr>
+            <td>Q6</td>
+            <td>¿Las actividades del curso contribuyeron a desarrollar habilidades como el pensamiento crítico, la comunicación y el trabajo en equipo?</td>
+        </tr>
+        <tr>
+            <td>Q7</td>
+            <td>¿Se promovieron actividades que fortalecieron el aprendizaje y la práctica de un segundo idioma?</td>
+        </tr>
+        <tr>
+            <td>Q8</td>
+            <td>¿Las actividades y el tiempo dedicado fuera de clase fueron motivadores y acordes con los créditos de la asignatura?</td>
+        </tr>
+        <tr>
+            <td>Q9</td>
+            <td>¿El docente logró relacionar los conceptos teóricos con ejemplos o actividades prácticas, respetando el horario y resolviendo dudas?</td>
+        </tr>
+        <tr>
+            <td>Q10</td>
+            <td>¿Las evaluaciones estuvieron alineadas con lo enseñado y se ofreció retroalimentación que ayudó a identificar y superar dificultades?</td>
+        </tr>
+    </table>
+    <br>
+    <div id="resultsTable"></div>
+    <br>
+    <canvas id="meanChart" style="width: 900px; height: 600px; display:block; margin:auto;"></canvas>
+    <br>
+    <button class="bCreate" style="float: right;">Reiniciar datos</button> 
+    <button class="bCreate" id="report" style="float: right;">Generar reporte</button>
+    <br>
+    <footer>Created by: Steve LóGi</footer>
+    <script type="module">
+        import { generatePDF} from "/app.js";
+
+        document.getElementById("report").addEventListener("click", () => {
+          generatePDF();
+        });
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        const name = getQueryParam("name");
+
+        if (name) {
+            document.getElementById('nameDisplay3').innerText = `${decodeURIComponent(name)}`;
+        } else {
+            document.getElementById('nameDisplay3').innerText = "Welcome, Guest!";
+        }
+
+        async function fetchResults() {
+            const res = await fetch("http://localhost:9000/stats",{
+                method: "GET",
+            });
+            const data = await res.json();
+            renderTable(data);
+        }
+        function renderTable(data) {
+            const table = document.getElementById("resultsTable");
+            table.innerHTML = "";
+        
+            const selectedProfessor = document.getElementById("nameDisplay3").textContent;
+            const filteredData = data.filter(entry => entry.professor === selectedProfessor);
+        
+            const courses = {};
+            filteredData.forEach(entry => {
+                if (!courses[entry.course]) {
+                    courses[entry.course] = [];
+                }
+                courses[entry.course].push(entry);
+            });
+        
+            const meansByQuestion = {};
+        
+            Object.keys(courses).forEach(course => {
+                const existingQuestions = new Set();
+                courses[course].forEach(entry => {
+                    for (let i = 1; i <= 10; i++) {
+                        if (entry[`question${i}`] !== undefined) {
+                            existingQuestions.add(i);
+                        }
+                    }
+                });
+        
+                if (existingQuestions.size === 0) return;
+        
+                const tableTitle = document.createElement("h2");
+                tableTitle.innerHTML = `<h3 class="titleMain">${course}</h3>`;
+                table.appendChild(tableTitle);
+        
+                const container = document.createElement("table");
+                container.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Estudiante</th>
+                            ${[...existingQuestions].map(i => `<th>Q${i}</th>`).join("")}
+                        </tr>
+                    </thead>
+                    <tbody id="table-${course}">
+                    </tbody>
+                    <tfoot>
+                        <tr id="meanRow-${course}">
+                            <td class="bold">Promedio</td>
+                        </tr>
+                    </tfoot>
+                `;
+                table.appendChild(container);
+                const tbody = document.getElementById(`table-${course}`);
+                const meanRow = document.getElementById(`meanRow-${course}`);
+        
+                const sums = {};
+                const counts = {};
+        
+                [...existingQuestions].forEach(i => {
+                    sums[i] = 0;
+                    counts[i] = 0;
+                });
+        
+                let studentIndex = 1;
+        
+                courses[course].forEach(entry => {
+                    const hasQuestions = [...existingQuestions].some(i => entry[`question${i}`] !== undefined);
+        
+                    if (!hasQuestions) return; 
+        
+                    let row = `<tr><td>Estudiante ${studentIndex++}</td>`;
+                    [...existingQuestions].forEach(i => {
+                        const respuesta = entry[`question${i}`];
+                        let colorClass = "gray";
+        
+                        if (respuesta !== undefined) {
+                            if (respuesta >= 5) colorClass = "green";
+                            else if (respuesta >= 4) colorClass = "green-light";
+                            else if (respuesta >= 3) colorClass = "yellow";
+                            else colorClass = "red";
+                        }
+        
+                        row += `<td class="${colorClass}">${respuesta ?? "-"}</td>`;
+        
+                        if (respuesta !== undefined) {
+                            sums[i] += respuesta;
+                            counts[i]++;
+                        }
+                    });
+                    row += "</tr>";
+                    tbody.innerHTML += row;
+                });
+        
+                let meanRowContent = `<td class="bold">Promedio</td>`;
+                let questionMeans = [];
+        
+                [...existingQuestions].forEach(i => {
+                    const mean = counts[i] > 0 ? (sums[i] / counts[i]).toFixed(2) : "-";
+                    meanRowContent += `<td class="bold">${mean}</td>`;
+                    
+                    if (counts[i] > 0) {
+                        questionMeans.push(parseFloat(mean));
+                    } else {
+                        questionMeans.push(0);
+                    }
+                });
+        
+                meanRow.innerHTML = meanRowContent;
+        
+                meansByQuestion[course] = questionMeans;
+            });
+        
+            renderChart(meansByQuestion);
+        }
+        
+        function renderChart(meansByQuestion) {
+            const ctx = document.getElementById("meanChart").getContext("2d");
+        
+            if (window.meanChartInstance) {
+                window.meanChartInstance.destroy();
+            }
+        
+            const courses = Object.keys(meansByQuestion);
+            const numQuestions = 10;
+            const labels = Array.from({ length: numQuestions }, (_, i) => `Q${i + 1}`);
+        
+            const datasets = courses.map((course, index) => {
+            const colors = [
+                "rgba(255, 0, 0, 0.85)",    // Rojo intenso  
+                "rgba(0, 128, 255, 0.85)",  // Azul brillante  
+                "rgba(255, 200, 0, 0.85)",  // Amarillo vibrante  
+                "rgba(0, 200, 83, 0.85)",   // Verde neón  
+                "rgba(138, 43, 226, 0.85)", // Púrpura brillante  
+                "rgba(255, 69, 0, 0.85)",   // Naranja fuego  
+                "rgba(255, 20, 147, 0.85)", // Rosa fuerte  
+                "rgba(75, 0, 130, 0.85)",   // Índigo intenso  
+                "rgba(0, 255, 255, 0.85)",  // Cian neón  
+                "rgba(255, 105, 180, 0.85)" // Rosa vibrante  
+            ];
+                
+                return {
+                    label: course,
+                    data: meansByQuestion[course],
+                    backgroundColor: colors[index % colors.length],
+                    borderColor: colors[index % colors.length].replace("0.6", "1"),
+                    borderWidth: 1,
+                    borderRadius: 3
+                };
+            });
+        
+            window.meanChartInstance = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: false, 
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: {
+                                color: "rgba(150, 150, 150, 0.5)", 
+                            },
+                            ticks: {
+                                color: "#000" 
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: "rgba(150, 150, 150, 0.5)", 
+                            },
+                            ticks: {
+                                color: "#000" 
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        fetchResults();
+
+    </script>
+
+</body>
+</html>

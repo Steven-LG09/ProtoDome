@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docentes HDV</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Images/assessment.png" type="image/png">
+</head>
+<body class="body2">
+    <h1 class="mainName">DOME</h1>
+    <h3 class="descrip">Desempeño, Observación, Medición y Evaluación</h3>
+    <h2 class="secondName">Información Personal</h2>
+    <p class="end">Los campos con asteriscos(*) son obligatorios</p>
+    <div class="blockF">
+        <div class="block1l">
+            <label for="nombre" class="loginT2">Nombre Completo*</label><br>
+            <label for="photo" class="loginT2">Foto*</label>
+        </div>
+        <div class="block1l2">
+            <input class="box2" type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre" required><br>
+            <input type="file" id="photo" name="photo" required>
+        </div>
+    </div>
+    <p id="error-message" class="errorFile"></p>
+
+    <p id="loadingMessage" class="secondName" style="display: none;">Loading...</p>
+    <button id="saveData" class="bCreate2">Enviar</button>
+    <br>
+    <footer>Created by: Steve LóGi</footer>
+    <script type="module">
+        import { addData } from "/app.js";
+        document.getElementById("saveData").addEventListener("click", () => {
+          addData();
+        });
+        document.getElementById("photo").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            const maxSize = 1 * 1024 * 1024;
+
+            if (file && file.size > maxSize) {
+                document.getElementById("error-message").textContent = "El tamaño del archivo debe ser menor a 1MB.";
+                event.target.value = ""; 
+            } else {
+                document.getElementById("error-message").textContent = "";
+            }
+        });
+    </script>
+</body>
+</html>

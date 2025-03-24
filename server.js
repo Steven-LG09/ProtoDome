@@ -1,0 +1,279 @@
+import express from "express";
+import dotenv from "dotenv";
+import cors from 'cors';
+import multer from "multer";
+import mongoose from 'mongoose';
+import { google } from "googleapis";
+import streamifier from "streamifier";
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 9000;
+const allowedUser1 = process.env.allowedUser1;
+const allowedUser2 = process.env.allowedUser2;
+const allowedUser3 = process.env.allowedUser3;
+const allowedPass = process.env.allowedPass;
+
+app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
+app.use(cors());
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+
+const resumeSchema = new mongoose.Schema({
+  userName: String,
+  fileUrl: String
+});
+const evaluationSchema = new mongoose.Schema({
+  professor: String,
+  course: String,
+  question1: Number,
+  question2: Number,
+  question3: Number,
+  question4: Number,
+  question5: Number,
+  question6: Number,
+  question7: Number,
+  question8: Number,
+  question9: Number,
+  question10: Number,
+  comment: String
+});
+
+const Resume = mongoose.models[process.env.COLLECTION_NAME] || mongoose.model(process.env.COLLECTION_NAME, resumeSchema);
+const Evaluation = mongoose.models[process.env.COLLECTION_NAME2] || mongoose.model(process.env.COLLECTION_NAME2, evaluationSchema);
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+const auth = new google.auth.GoogleAuth({
+  credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS), 
+  scopes: ["https://www.googleapis.com/auth/drive"],
+});
+const drive = google.drive({ version: "v3", auth });
+
+async function makeFilePublic(fileId) {
+  await drive.permissions.create({
+    fileId,
+    requestBody: {
+      role: "reader",
+      type: "anyone", 
+    },
+  });
+
+  return `https://drive.google.com/uc?id=${fileId}`; 
+}
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + process.env.MAIN);
+});
+app.post("/login", async (req, res) => {
+    const { user, password } = req.body;
+    try {
+        let redirectUrl;
+        if (user === allowedUser1 && password === allowedPass) {
+          redirectUrl = "/privateMain.html";
+        } else if (user === allowedUser2 && password === allowedPass) {
+          redirectUrl = "/creatente.html";
+            } else if (user === allowedUser3 && password === allowedPass) {
+            redirectUrl = "/publicMain.html";
+                }else {
+                    return res
+                        .status(403)
+                        .json({ success: false, message: "Usuario No Autorizado" });
+                    }
+  
+        return res.json({
+          success: true,
+          redirectUrl,
+        });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: "Error Iniciando Sesión: " + error.message });
+    }
+});
+app.post('/posthdv', upload.single("photo"), async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+    if (!name) return res.status(400).json({ error: "Missing required fields" });
+
+    const fileMetadata = {
+      name: req.file.originalname,
+      parents: [process.env.DRIVE_FOLDER_ID],
+    };
+
+    const media = {
+      mimeType: req.file.mimetype,
+      body: streamifier.createReadStream(req.file.buffer),
+    };
+
+    const response = await drive.files.create({
+      resource: fileMetadata,
+      media: media,
+      fields: "id",
+    });
+
+    const fileId = response.data.id;
+
+    const publicUrl = await makeFilePublic(fileId);
+
+    const newResume = new Resume({ 
+      fileUrl: publicUrl,
+      userName: name 
+    });
+    await newResume.save();
+
+    res.json({ message: "Upload successful", success: true, redirectUrl: "/thanks.html" });
+
+  } catch (error) {
+    console.error("Storage Upload Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get("/qualiMe", async (req, res) => {
+  try {
+      const resumes = await Resume.find({}, "userName fileUrl -_id");
+
+      if (resumes.length === 0) {
+          return res.status(404).json({ message: "No resumes found" });
+      }
+
+      res.json(resumes);
+  } catch (error) {
+      console.error("Error fetching resumes:", error);
+      res.status(500).json({ error: "Failed to fetch resumes" });
+  }
+});
+app.get('/sPage', (req, res) => {
+  const name = req.query.name; 
+
+  if (name) {
+      res.json({ 
+          success: true, 
+          redirectUrl: `/stadistic.html?name=${encodeURIComponent(name)}` 
+      });
+  } else {
+      res.json({ success: false, message: "Name is required" });
+  }
+});
+app.get('/oPage', (req, res) => {
+  const name = req.query.name; 
+
+  if (name) {
+      res.json({ 
+          success: true, 
+          redirectUrl: `/observation.html?name=${encodeURIComponent(name)}` 
+      });
+  } else {
+      res.json({ success: false, message: "Name is required" });
+  }
+});
+app.get('/ePage', (req, res) => {
+  const name = req.query.name; 
+
+  if (name) {
+      res.json({ 
+          success: true, 
+          redirectUrl: `/evaluationPage.html?name=${encodeURIComponent(name)}` 
+      });
+  } else {
+      res.json({ success: false, message: "Name is required" });
+  }
+});
+app.post('/postEva', async (req, res) => {
+  try {
+    const {professor,course,question1,question2,question3,question4,question5,question6,question7,
+        question8,question9,question10,comment} = req.body;
+
+    const newEvaluation = new Evaluation({ 
+      professor: professor,
+      course: course,
+      question1: question1,
+      question2: question2,
+      question3: question3,
+      question4: question4,
+      question5: question5,
+      question6: question6,
+      question7: question7,
+      question8: question8,
+      question9: question9,
+      question10: question10,
+      comment: comment
+    });
+    await newEvaluation.save();
+
+    res.json({ message: "Upload successful",success: true, redirectUrl: "/thanks2.html"});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get("/count", async (req, res) => {
+  try {
+      const count = await Resume.countDocuments();
+      res.json({ count });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+app.get("/count2", async (req, res) => {
+  try {
+      const count = await Evaluation.countDocuments();
+      res.json({ count });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+app.get("/stats", async (req, res) => {
+  try {
+      const respuestas = await Evaluation.find(); 
+      res.json(respuestas);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+app.post("/cDocente", (req, res) => {
+  res.json({ success: true, redirectUrl: "/userCreation.html" });
+});
+app.post("/rPrivate", (req, res) => {
+  res.json({ success: true, redirectUrl: "/results.html" });
+});
+app.get("/rPage", (req, res) => {
+  const name = req.query.name; 
+
+  if (name) {
+      res.json({ 
+          success: true, 
+          redirectUrl: `/resumePage.html?name=${encodeURIComponent(name)}` 
+      });
+  } else {
+      res.json({ success: false, message: "Name is required" });
+  }
+});
+app.get('/get-resume', async (req, res) => {
+  try {
+      const { name } = req.query;
+
+      if (!name) {
+          return res.status(400).json({ error: 'Name is required' });
+      }
+      const userName=name
+
+      const resumeData = await Resume.findOne({ userName });
+
+      if (!resumeData) {
+          return res.status(404).json({ error: 'Resume not found' });
+      }
+
+      res.json({ data: resumeData });
+  } catch (error) {
+      console.error("Error fetching resume:", error);
+      res.status(500).json({ error: error.message });
+  }
+});
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

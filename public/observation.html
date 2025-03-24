@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Images/assessment.png" type="image/png">
+</head>
+<body class="body3">
+    <h1 class="mainName">DOME</h1>
+    <h3 class="descrip">Desempeño, Observación, Medición y Evaluación</h3>
+    <h3 class="titleMain">Observaciones de la Evaluación del Docente:</h3>
+    <h2 class="titleMain" id="nameDisplay4">Nombre Docente</h2>
+
+    <div id="resultsTable2"></div>
+    <br>
+    <footer>Created by: Steve LóGi</footer>
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        const name = getQueryParam("name");
+
+        if (name) {
+            document.getElementById('nameDisplay4').innerText = `${decodeURIComponent(name)}`;
+        } else {
+            document.getElementById('nameDisplay4').innerText = "Welcome, Guest!";
+        }
+        async function fetchResults() {
+            const res = await fetch("http://localhost:9000/stats",{
+                method: "GET",
+            });
+            const data = await res.json();
+            renderTable(data);
+        }
+        function renderTable(data) {
+            const table = document.getElementById("resultsTable2");
+            table.innerHTML = "";
+
+            const selectedProfessor = document.getElementById("nameDisplay4").textContent;
+            const filteredData = data.filter(entry => entry.professor === selectedProfessor);
+
+            const courses = {};
+            filteredData.forEach(entry => {
+                if (entry.comment && entry.comment.trim() !== "") {
+                    if (!courses[entry.course]) {
+                        courses[entry.course] = [];
+                    }
+                    courses[entry.course].push(entry);
+                }
+            });
+
+            Object.keys(courses).forEach(course => {
+                if (courses[course].length === 0) return;
+
+                const tableTitle = document.createElement("h2");
+                tableTitle.innerHTML = `<h3 class="titleMain">${course}</h3>`;
+                table.appendChild(tableTitle);
+
+                const container = document.createElement("table");
+                container.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Estudiante</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-${course}">
+                    </tbody>
+                `;
+                table.appendChild(container);
+                const tbody = document.getElementById(`table-${course}`);
+
+                courses[course].forEach((entry, index) => {
+                    const comment = entry.comment.trim();
+                    if (comment) {
+                        tbody.innerHTML += `<tr><td>Estudiante ${index + 1}</td><td>${comment}</td></tr>`;
+                    }
+                });
+            });
+        }
+        fetchResults();
+    </script>
+</body>
+</html>

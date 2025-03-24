@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechSoftware</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Images/assessment.png" type="image/png">
+</head>
+<body class="body3">
+    <h1 class="mainName">DOME</h1>
+    <h4 class="descrip">Desempeño, Observación, Medición y Evaluación</h4>
+    <h2 class="titleMain">Sistema de Evaluación Docente</h2>
+    <div id="list2" class="adds"></div>
+    <br>
+    <footer>Created by: Steve LóGi</footer>
+    <script>
+        fetch('http://localhost:9000/qualiMe', {
+            method: "GET",
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch resumes");
+            }
+            return response.json();
+            })
+        .then((data) => {
+            const list = document.getElementById("list2");
+                
+            data.forEach(product => {
+                const li = document.createElement("li");
+                let fileUrl = product.fileUrl.includes("drive.google.com") 
+                    ? `https://drive.google.com/thumbnail?id=${product.fileUrl.split('id=')[1]}&sz=w1000` 
+                    : product.fileUrl; 
+                const myhtml = ` 
+                <div class="card">
+                    <img src="${fileUrl}" class="card-img-top" alt="error en imagen">
+                    <p class="card-title">${product.userName}</p>
+                    <button class="buttonPro" style="margin-right: 5%; margin-top: 10px" onclick="evaPage('${product.userName}')">Calificar</button>
+                </div>
+                `;
+                li.innerHTML = myhtml;
+                list.appendChild(li);
+            });
+        })
+        async function evaPage(name){
+            try {
+                const response = await fetch(`http://localhost:9000/ePage?name=${encodeURIComponent(name)}`, { 
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+        
+                const data = await response.json();
+                if (data.success) {
+                    window.location.href = data.redirectUrl;
+                } else {
+                    alert("Access denied.");
+                }
+            } catch (error) {
+                console.error("Error redirecting:", error);
+            }
+        }
+        window.evaPage = evaPage;
+    </script>
+</body>
+</html>

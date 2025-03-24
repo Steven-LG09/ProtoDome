@@ -1,0 +1,910 @@
+.body1{ /* used */
+    background-color: #9ACBD0;
+    height: 80vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+.body2{/* used */
+    background-color: #9ACBD0;
+}
+.body3{/* used */
+    background-color: #9ACBD0;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+form{
+    text-align: center;
+}
+.mainName{ /* used */
+    text-align: center;
+    height: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #205781;
+    text-shadow: 3px 3px 5px #D5E5D5;
+    font-size: 60px;
+}
+.mainName2{
+    text-align: center;
+    height: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #3A7D44;
+    text-shadow: 3px 3px 5px #809D3C ;
+    font-size: 80px;
+    font-weight: bold;
+}
+.secondName{ /* used */
+    text-align: center;
+    height: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #3674B5;
+    text-shadow: 3px 3px 5px #D5E5D5 ;
+    font-size: 30px;
+}
+.secondName2{ /* used */
+    text-align: center;
+    height: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #3674B5;
+    text-shadow: 3px 3px 5px #D5E5D5 ;
+    font-size: 30px;
+}
+.thirdName{
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: #3A7D44;
+    text-shadow: 3px 3px 5px #809D3C ;
+    font-size: 25px;
+}
+.descrip{ /* used */
+    text-align: center;
+    height: 30px;
+    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #4F959D;
+    text-shadow: 3px 3px 5px #D5E5D5;
+}
+.tech{
+    text-align: center;
+    height: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #3674B5;
+    text-shadow: 3px 3px 5px #D5E5D5;
+    font-size: 15px;
+    font-weight: bold;
+}
+.descrip2{
+    text-align: center;
+    height: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #5B913B;
+    text-shadow: 3px 3px 5px #809D3C;
+}
+.titleMain{ /* used */
+    margin-top: 1%;
+    text-align: center;
+    height: 25px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #205781;
+    text-shadow: 3px 3px 5px #D5E5D5;
+}
+.loginT{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(39, 37, 37);
+    text-shadow: 3px 3px 5px #4F959D ;
+    margin-bottom: 3px;
+}
+.loginMain{
+    display: none;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(39, 37, 37);
+    text-shadow: 3px 3px 5px #809D3C ;
+    margin-bottom: 3px;
+}
+.loginT2{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(39, 37, 37);
+    text-shadow: 3px 3px 5px #4F959D;
+}
+.listFile{
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(39, 37, 37);
+    text-shadow: 3px 3px 5px #809D3C;
+    text-align: center;
+    margin-right: 10%;
+    list-style: none;
+}
+.loginT3{
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(39, 37, 37);
+    text-shadow: 3px 3px 5px #809D3C ;
+}
+.box{ /* used */
+    border-radius: 15px;
+    background-color: whitesmoke;
+    border: 1.5px solid #4F959D;
+    color: #205781;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    width: 20%;
+    height: 25px;
+    font-size: 15px;
+}
+.boxMain{
+    display: none;
+    border-radius: 15px;
+    background-color: whitesmoke;
+    border: 1.5px solid #809D3C;
+    color: #3A7D44;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    width: 20%;
+    height: 25px;
+    font-size: 15px;
+}
+.box2{ /* used */
+    border-radius: 10px;
+    background-color: whitesmoke;
+    border: 2px solid #4F959D;
+    color: #205781;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    text-align: center;
+    width: 50%;
+    height: 20px;
+}
+.bCreate{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #4F959D;
+    width: 10%;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #205781;
+    background-color: whitesmoke;
+    font-size: large;
+    cursor: grabbing;
+}
+.bCreateMain{
+    display: none;
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #809D3C;
+    width: 10%;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #3A7D44;
+    background-color: whitesmoke;
+    font-size: large;
+    cursor: grabbing;
+}
+.bCreate2{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #4F959D;
+    width: 20%;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #205781;
+    background-color: whitesmoke;
+    font-size: large;
+    cursor: grabbing;
+    display: block;
+    margin: auto;
+}
+.buttonPro{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #3674B5;
+    width: 50%;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #3674B5;
+    background-color: whitesmoke;
+    font-size: large;
+    cursor: grabbing;
+    float: right;
+}
+footer{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    color: #4F959D;
+    text-shadow: 3px 3px 5px #D5E5D5;
+    font-size: 13px;
+    text-align: center;
+}
+.bCreate:hover,.bCreateMain:hover,.resultsButton:hover,.bCreate2:hover,.buttonPro:hover,.headButton:hover{
+    box-shadow: 0 12px 16px 0 #4F959D, 0 17px 50px 0 #D5E5D5;
+    background-color: #205781;
+    color: white;
+}
+.block1{
+    width: 50%;
+}
+.block1l2{
+    width: 60%;
+    margin-left: 3%;
+}
+.block1l{
+    width: 40%;
+    text-align: right;
+}
+.block1l4{
+    width: 60%;
+    margin-left: 3%;
+}
+.block1l3{
+    width: 40%;
+    text-align: right;
+}
+.block1l5{
+    width: 40%;
+    margin-left: 3%;
+}
+.blockF,.pInfo,.evaBlock{
+    display: flex;
+}
+.blockF1{
+    display: flex;
+}
+.headerHDV{
+    display: flex;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-bottom: 1%;
+}
+.adds{
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.resultsEva{
+    list-style: none;
+}
+::-webkit-scrollbar{ /* used */
+    width: 15px;
+  }
+::-webkit-scrollbar-thumb { /* used */
+background-color: #D5E5D5; 
+border-radius: 10px;    
+border: 2px solid  #205781;
+}
+::-webkit-scrollbar-thumb:hover { /* used */
+background-color: white;
+}
+.listStudies{
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    text-shadow: 3px 3px 5px #809D3C;
+}
+.blockStudies{
+    text-align: center;
+    background-color: #3A7D44;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+}
+.genreS{
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #809D3C;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #3A7D44;
+    background-color: whitesmoke;
+    font-size: 15px;
+    text-align: center;
+}
+.course{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #4F959D;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #205781;
+    background-color: whitesmoke;
+    font-size: 15px;
+    text-align: center;
+}
+.deleteAdd{
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #809D3C;
+    width: 20%;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #3A7D44;
+    background-color: whitesmoke;
+    font-size: large;
+    cursor: grabbing;
+}
+.end{/* used */
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(39, 37, 37);
+    text-shadow: 3px 3px 5px #4F959D ;
+    text-align: center;
+}
+.mainPhoto{
+    width: 300px;
+    height: 400px;
+    border-radius: 15px;
+    box-shadow: 0 12px 16px 0 black, 0 17px 50px 0 #809D3C;
+}
+.photoH,.names{
+    width: 30%;
+    text-align: center;
+}
+.names3{
+    width: 30%;
+    text-align: center;
+}
+.contentInfo,.results{
+    width: 70%;
+}
+.contentInfo2,.results2{
+    width: 70%;
+}
+.personalInfo{
+    display: flex;
+    margin-left: 6%;
+    margin-right: 2%;
+}
+.personalInfo2{
+    display: flex;
+    margin-left: 6%;
+    margin-right: 2%;
+}
+.names2{
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(39, 37, 37);
+    text-shadow: 3px 3px 5px #809D3C ;
+    font-weight: bold;
+    font-size: 20px;
+}
+.results2{
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(39, 37, 37);
+    text-shadow: 3px 3px 5px #809D3C ;
+    font-size: 20px;
+}
+.listGenere{
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    text-shadow: 3px 3px 5px #809D3C;
+    text-align: center;
+    font-size: 20px;
+}
+.buttonsH{
+    display: flex;
+    height: 30px;
+}
+.deleteBu{
+    width: 20%;
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #ad6565;
+    border-width: 0.1px;
+    color: whitesmoke;
+    background-color: red;
+    font-size: large;
+    cursor: grabbing;
+    float: right;
+}
+.deleteBu:hover{
+    box-shadow: 0 12px 16px 0 #3A7D44, 0 17px 50px 0 #809D3C;
+    background-color: black;
+    color: white;
+}
+.finalBu{
+    text-align: center;
+    height: 30px;
+    width: 50%;
+}
+.evaluationTitle{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    color: #205781;
+    text-shadow: 3px 3px 5px #D5E5D5 ;
+    text-align: center;
+}
+.evaQuestion{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    text-shadow: 3px 3px 5px #4F959D;
+    text-align: center;
+}
+.slider-container {
+    width: 100%;
+    margin: 20px auto;
+}
+input[type="range"] { /* used */
+    appearance: none;
+    width: 100%;
+    height: 9px;
+    background: linear-gradient(to right, #D5E5D5, #4F959D, #205781);
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.3s;
+}
+.value-display {
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    text-shadow: 3px 3px 5px #D5E5D5;
+    font-weight: bold;
+}
+.evaBlock1{
+    width: 50%;
+    padding: 2%;
+}
+textarea { /* used */
+    width: 90%; 
+    height: 50px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #4F959D;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    text-shadow: 3px 3px 5px #4F959D;
+}
+.headerBlock{
+    width: 33%;
+}
+.headButton{ /* Used */
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #3674B5;
+    width: 100%;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #3674B5;
+    background-color: whitesmoke;
+    font-size: 20px;
+    cursor: grabbing;
+    float: right;
+}
+.resultsBlock{ /* Used */
+    display: flex;
+    background-color: #d5dde5;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-color: #205781;
+    border-radius: 10px;
+    border-width: 0.1px;
+    box-shadow: 0 12px 16px 0 black, 0 17px 50px 0 #205781;
+    margin-bottom: 1%;
+}
+.mobileBlock{ /* Used */
+    display: flex;
+    width: 20%;
+}
+.photoBlock{ /* Used */
+    width: 10%;
+    text-align: center;
+}
+.nameBlock{ /* Used */
+    width: 70%;
+}
+.noteBlock{ /* Used */
+    width: 50%;
+}
+.messagesBlock{ /* Used */
+    width: 50%;
+}
+.resultsPhoto{ /* Used */
+    width: 90px;
+    height: 120px;
+    border-radius: 10px;
+    margin-top: 3%;
+}
+.resultsName{ /* Used */
+    font-family: 'Times New Roman', Times, serif;
+    color: #205781;
+    text-shadow: 3px 3px 5px #4F959D;
+    font-size: 35px;
+}
+.resultsButton{ /* Used */
+    margin-top: 3%;
+    width: 90%;
+    height: 90%;
+    border-radius: 10px;
+    cursor: grabbing;
+}
+table { /* used */
+    align-self: center;
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td { /* used */
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+th { /* used */
+    background-color: #3674B5;
+    color: #D3D3D3;
+    font-size: 20px;
+}
+.column1:nth-child(1), .column1:nth-child(1) { 
+    width: 10%;
+}
+.column2:nth-child(2), .column2:nth-child(2) { 
+    width: 90%;
+}
+.green-light { 
+    background-color: #20be20; 
+    color: black; }
+.green { 
+    background-color: #00FF00; 
+    color: black; } 
+.yellow { 
+    background-color: #FFFF00; 
+    color: black; }
+.red { 
+    background-color: #FF0000; 
+    color: white; } 
+.gray { 
+    background-color: #D3D3D3; 
+    color: black; 
+} 
+.errorFile{
+    text-align: center;
+    color: red;
+    font-family: 'Times New Roman', Times, serif;
+}
+.card{ /* used */
+    width: 15rem;
+    height: 24rem;
+    border-radius: 10px; 
+    border: 2px solid #3674B5;
+    background-color: #d5dde5;
+    box-shadow: 0 12px 16px 0 #3A7D44, 0 17px 50px 0 #9ACBD0; 
+    margin-bottom: 10px; 
+    margin-right: 5px;
+}
+.card-img-top{ /* used */
+    width: 15rem; 
+    height: 18rem;
+    border-radius: 10px;
+}
+.card-title{ /* used */
+    margin-top: -3px;
+    height: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #205781;
+    text-shadow: 3px 3px 5px #9ACBD0;
+    font-size: 20px;
+    margin-left: 5%;
+}
+@media (min-width: 1200px) {
+    .mainName{
+        height: 40px;
+        font-size: 70px;
+    }
+    .loginT{
+        font-size: 17px;
+    }
+    .loginMain{
+        font-size: 17px;
+    }
+    .box{
+        width: 25%;
+        height: 30px;
+        font-size: 17px;
+    }
+    .boxMain{
+        width: 25%;
+        height: 30px;
+        font-size: 17px;
+    }
+    .bCreate{
+        width: 15%;
+        font-size: 17px;
+    }
+    .bCreateMain{
+        width: 15%;
+        font-size: 17px;
+    }
+    .secondName{
+        height: 35px;
+        font-size: 35px;
+    }
+    .loginT2{
+        font-size: 21px;
+    }
+    .loginT3{
+        font-size: 21px;
+    }
+    .box2{
+        font-size: 21px;
+        width: 70%;
+    }
+    .bCreate2{
+        width: 20%;
+        font-size: 25px;
+    }
+    .blockStudies{
+        width: 50%;
+    }
+    .deleteAdd{
+        width: 50%;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 768px) {
+    .mainName{
+        height: 45px;
+        font-size: 75px;
+    }
+    .loginT{
+        font-size: 20px;
+    }
+    .loginMain{
+        font-size: 20px;
+    }
+    .box{
+        width: 35%;
+        height: 35px;
+        font-size: 20px;
+    }
+    .boxMain{
+        width: 35%;
+        height: 35px;
+        font-size: 20px;
+    }
+    .bCreate{
+        width: 25%;
+        font-size: 20px;
+    }
+    .bCreateMain{
+        width: 25%;
+        font-size: 20px;
+    }
+    .secondName{
+        height: 40px;
+        font-size: 40px;
+    }
+    .loginT2{
+        font-size: 21px;
+    }
+    .loginT3{
+        font-size: 21px;
+    }
+    .box2{
+        font-size: 20px;
+        width: 70%;
+    }
+    .bCreate2{
+        width: 30%;
+        font-size: 25px;
+    }
+    .blockStudies{
+        width: 60%;
+    }
+    .deleteAdd{
+        width: 50%;
+        font-size: 20px;
+    }
+    .headButton{
+        font-size: 20px;
+    }
+    .titleMain{
+        font-size: 22px;
+    }
+    .contentInfo{
+        width: 60%;
+    }
+    .photoH{
+        margin-top: 5%;
+        width: 40%;
+    }
+    .mainPhoto{
+        width: 250px;
+        height: 350px;
+    }
+    .personalInfo{
+        margin-left: 0%;
+
+    }
+    .block1l3{
+        width: 20%;
+    }
+    .block1l4{
+        width: 80%;
+        margin-left: 3%;
+    }
+    .course{
+        font-size: 15px;
+        height: 30px;
+    }
+    .evaBlock{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .evaBlock1{
+        width: 90%;
+        padding: 2%;
+    }
+    .blockF1{
+        text-align: center;
+    }
+    .mobileBlock{
+        width: 30%;
+    }
+    .photoBlock{
+        width: 20%;
+    }
+    .nameBlock{
+        width: 50%;
+    }
+}
+
+@media (max-width: 767px) {
+    .mainName{
+        height: 50px;
+        font-size: 80px;
+    }
+    .loginT{
+        font-size: 23px;
+    }
+    .loginMain{
+        font-size: 23px;
+    }
+    .box{
+        width: 65%;
+        height: 40px;
+        font-size: 18px;  
+    }
+    .boxMain{
+        width: 65%;
+        height: 40px;
+        font-size: 18px;
+    }
+    .bCreate{
+        width: 35%;
+        font-size: 21px;
+    }
+    .bCreateMain{
+        width: 35%;
+        font-size: 21px;
+    }
+    .secondName{
+        height: 30px;
+        font-size: 30px;
+    }
+    .loginT2{
+        font-size: 15px;
+    }
+    .loginT3{
+        font-size: 14px;
+    }
+    .box2{
+        font-size: 15px;
+        width: 80%;
+    }
+    .bCreate2{
+        width: 50%;
+        font-size: 20px;
+    }
+    .blockStudies{
+        width: 80%;
+    }
+    .deleteAdd{
+        width: 50%;
+        font-size: 17px;
+    }
+    .headerHDV{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .headerBlock{
+        width: 70%;
+        justify-content: center;
+        align-items: center;
+    }
+    .headButton{
+        width: 100%;
+        font-size: 18px;
+    }
+    .titleMain{
+        font-size: 20px;
+    }
+    .personalInfo{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0%;
+    }
+    .photoH{
+        width: 80%;
+        text-align: center;
+    }
+    .names{
+        width: 50%;
+    }
+    .results{
+        width: 50%;
+    }
+    .block1l3{
+        width: 15%;
+    }
+    .block1l4{
+        width: 85%;
+        margin-left: 3%;
+    }
+    .course{
+        font-size: 9px;
+        height: 30px;
+    }
+    .evaBlock{
+        text-align: center;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .evaBlock1{
+        width: 90%;
+        padding: 2%;
+    }
+    .blockF1{
+        text-align: center;
+    }
+    .secondName2{
+        height: 30px;
+        font-size: 20px;
+    }
+    .resultsBlock{ /* Used */
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-bottom: 1%;
+        text-align: center;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .photoBlock{ /* Used */
+        width: 100%;
+    }
+    .resultsPhoto{ /* Used */
+        width: 100px;
+        height: 130px;
+        margin-top: 3%;
+    }
+    .nameBlock{ /* Used */
+        width: 100%;
+    }
+    .resultsName{ /* Used */
+        font-size: 25px;
+    }
+    .mobileBlock{ /* Used */
+        width: 80%;
+    }
+    .personalInfo2{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0%;
+        margin-right: 0%;
+    }
+    .names3{
+        width: 25%;
+        text-align: left;
+        margin-left: 4%;
+        margin-right: 5%;
+    }
+    .contentInfo2{
+        width: 100%;
+    }
+    .results2{
+        width: 75%;
+        font-size: 18px;
+    }
+    .names2{
+        font-size: 18px;
+    }
+    .deleteBu{
+        width: 50%;
+        font-size: large;
+    }
+    .card-title{
+        font-size: 17px;
+    }
+}

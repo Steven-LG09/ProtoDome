@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Images/assessment.png" type="image/png">
+</head>
+<body class="body3">
+    <h1 class="mainName">DOME</h1>
+    <h3 class="descrip">Software Development Technology</h3>
+    <h3 class="titleMain">Sistema de Evaluación del Docente:</h3>
+    <h2 class="titleMain" id="nameDisplay2">Nombre Docente</h2>
+
+    <p class="evaQuestion">Por favor, responder las preguntas teniendo en cuenta que 1 es nunca y 5 es siempre.</p>
+    <div class="blockF1">
+        <div class="block1l3">
+            <label for="courseE" class="loginT2">Materia</label>
+        </div>
+        <div class="block1l4">
+            <select class="course" id="courseE" required>
+                <option selected disabled>SELECCIONE UNA MATERIA</option>
+                <option>ADMINISTRACIÓN Y PLANEACIÓN DE PROYECTOS SOFTWARE</option>
+                <option>ÁLGEBRA LINEAL</option>
+                <option>BASE DE DATOS</option>
+                <option>BASES DE DATOS II</option>
+                <option>COMPUTACIÓN GRÁFICA</option>
+                <option>CURSO AVANZADO DE HTML</option>
+                <option>DESARROLLO DE APP</option>
+                <option>DESARROLLO DE VIDEO JUEGOS</option>
+                <option>DESARROLLO DEL PENSAMIENTO LÓGICO</option>
+                <option>EMPRENDIMIENTO</option>
+                <option>ENTORNOS DE DESARROLLO DE SOFTWARE</option>
+                <option>ESTADÍSTICA</option>
+                <option>ESTRUCTURA DE DATOS</option>
+                <option>FUNDAMENTOS DE REDES DE COMPUTADORES</option>
+                <option>INTRODUCCIÓN A LAS TICS</option>
+                <option>INTRODUCCIÓN A LA INTELIGENCIA ARTIFICIAL</option>
+                <option>LÓGICA</option>
+                <option>MATEMÁTICAS I</option>
+                <option>MATEMÁTICAS II</option>
+                <option>PATRONES DE DISEÑO DE SOFTWARE</option>
+                <option>PROGRAMACIÓN CLIENTE SERVIDOR</option>
+                <option>PROGRAMACIÓN WEB</option>
+                <option>PROGRAMACIÓN EN AMBIENTE COBOL</option>
+                <option>PROGRAMACIÓN EN RUBY</option>
+                <option>PROGRAMACIÓN EN JAVA SCRIPT</option>
+                <option>PROGRAMACIÓN I</option>
+                <option>PROGRAMACIÓN II</option>
+                <option>PROGRAMACIÓN ORIENTADA A OBJETOS</option>
+                <option>PROGRAMACIÓN PARA MÓVILES</option>
+                <option>SEMINARIO EMPRENDIMIENTO</option>
+                <option>SISTEMAS OPERATIVOS</option>
+                <option>TÉCNICAS DE LA COMUNICACIÓN</option>
+                <option>TÉCNICAS DE MODELADO DE SOFTWARE</option>
+            </select><br>
+        </div>
+    </div>
+    <div class="evaBlock">
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Organización del curso</h2>
+            <p class="evaQuestion">¿El curso contó con objetivos claros, contenidos bien organizados y criterios de evaluación definidos desde el inicio?</p>
+            <div class="slider-container">
+                <input type="range" id="slider" min="1" max="5" step="1" value="3" oninput="updateValue(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue">3</span></div>
+            </div>
+        </div>
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Coherencia entre planificación y ejecución</h2>
+            <p class="evaQuestion">¿Se respetó la planificación presentada en el programa durante el desarrollo de las clases?</p>
+            <div class="slider-container">
+                <input type="range" id="slider2" min="1" max="5" step="1" value="3" oninput="updateValue2(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue2">3</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="evaBlock">
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Utilidad de los recursos</h2>
+            <p class="evaQuestion">¿Los materiales y recursos recomendados (lecturas, artículos, videos, etc.) facilitaron el aprendizaje?</p>
+            <div class="slider-container">
+                <input type="range" id="slider3" min="1" max="5" step="1" value="3" oninput="updateValue3(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue3">3</span></div>
+            </div>
+        </div>
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Variedad en las actividades de aprendizaje</h2>
+            <p class="evaQuestion">¿El docente utilizó diversas actividades (clases en vivo, talleres, seminarios, etc.) que enriquecieron el proceso de aprendizaje?</p>
+            <div class="slider-container">
+                <input type="range" id="slider4" min="1" max="5" step="1" value="3" oninput="updateValue4(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue4">3</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="evaBlock">
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Uso de la tecnología</h2>
+            <p class="evaQuestion">¿El docente hizo un uso efectivo de las tecnologías (internet, aplicaciones, videos, etc.) para apoyar el aprendizaje?</p>
+            <div class="slider-container">
+                <input type="range" id="slider5" min="1" max="5" step="1" value="3" oninput="updateValue5(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue5">3</span></div>
+            </div>
+        </div>
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Desarrollo integral del estudiante</h2>
+            <p class="evaQuestion">¿Las actividades del curso contribuyeron a desarrollar habilidades como el pensamiento crítico, la comunicación y el trabajo en equipo?</p>
+            <div class="slider-container">
+                <input type="range" id="slider6" min="1" max="5" step="1" value="3" oninput="updateValue6(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue6">3</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="evaBlock">
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Fomento del segundo idioma</h2>
+            <p class="evaQuestion">¿Se promovieron actividades que fortalecieron el aprendizaje y la práctica de un segundo idioma?</p>
+            <div class="slider-container">
+                <input type="range" id="slider7" min="1" max="5" step="1" value="3" oninput="updateValue7(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue7">3</span></div>
+            </div>
+        </div>
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Motivación y adecuación de la carga académica</h2>
+            <p class="evaQuestion">¿Las actividades y el tiempo dedicado fuera de clase fueron motivadores y acordes con los créditos de la asignatura?</p>
+            <div class="slider-container">
+                <input type="range" id="slider8" min="1" max="5" step="1" value="3" oninput="updateValue8(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue8">3</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="evaBlock">
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Conexión entre teoría y práctica</h2>
+            <p class="evaQuestion">¿El docente logró relacionar los conceptos teóricos con ejemplos o actividades prácticas, respetando el horario y resolviendo dudas?</p>
+            <div class="slider-container">
+                <input type="range" id="slider9" min="1" max="5" step="1" value="3" oninput="updateValue9(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue9">3</span></div>
+            </div>
+        </div>
+        <div class="evaBlock1">
+            <h2 class="evaluationTitle">Evaluación y retroalimentación</h2>
+            <p class="evaQuestion">¿Las evaluaciones estuvieron alineadas con lo enseñado y se ofreció retroalimentación que ayudó a identificar y superar dificultades?</p>
+            <div class="slider-container">
+                <input type="range" id="slider10" min="1" max="5" step="1" value="3" oninput="updateValue10(this.value)">
+                <div class="value-display">Valor Seleccionado: <span id="sliderValue10">3</span></div>
+            </div>
+        </div>
+    </div>
+    <label for="obser" class="loginT" style="font-size: 20px;">Observaciones</label><br>
+    <textarea type="text" id="obser" name="obser" placeholder="Ingrese las observaciones sobre el docente aquí"></textarea>
+    <h3 class="evaQuestion" style="color: red;">!ATENTION! Antes de enviar, Por favor seleccione la materia correcta</h3>
+    <button class="bCreate2" id="saveEva" style="display: none;">Enviar</button>
+    <br>
+    <footer>Created by: Steve LóGi</footer>
+    <script>
+        function updateValue(value) {
+            document.getElementById("sliderValue").textContent = value;
+        }
+        function updateValue2(value) {
+            document.getElementById("sliderValue2").textContent = value;
+        }
+        function updateValue3(value) {
+            document.getElementById("sliderValue3").textContent = value;
+        }
+        function updateValue4(value) {
+            document.getElementById("sliderValue4").textContent = value;
+        }
+        function updateValue5(value) {
+            document.getElementById("sliderValue5").textContent = value;
+        }
+        function updateValue6(value) {
+            document.getElementById("sliderValue6").textContent = value;
+        }
+        function updateValue7(value) {
+            document.getElementById("sliderValue7").textContent = value;
+        }
+        function updateValue8(value) {
+            document.getElementById("sliderValue8").textContent = value;
+        }
+        function updateValue9(value) {
+            document.getElementById("sliderValue9").textContent = value;
+        }
+        function updateValue10(value) {
+            document.getElementById("sliderValue10").textContent = value;
+        }
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        const name = getQueryParam("name");
+
+        if (name) {
+            document.getElementById('nameDisplay2').innerText = `${decodeURIComponent(name)}`;
+        } else {
+            document.getElementById('nameDisplay2').innerText = "Welcome, Guest!";
+        }
+        const selectElement = document.getElementById("courseE");
+        const button = document.getElementById("saveEva");
+
+        selectElement.addEventListener("change", () => {
+            if (selectElement.value) {
+                button.style.display = "block";
+            }
+        });
+    </script>
+    <script type="module">
+        import { addEva } from "/app.js";
+
+        document.getElementById("saveEva").addEventListener("click", () => {
+        addEva(); });
+    </script>
+</body>
+</html>
