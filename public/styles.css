@@ -552,7 +552,7 @@ th { /* used */
     border-radius: 10px; 
     border: 2px solid #3674B5;
     background-color: #d5dde5;
-    box-shadow: 0 12px 16px 0 #3A7D44, 0 17px 50px 0 #3674B5; 
+    box-shadow: 0 12px 16px 0 #3674B5, 0 17px 50px 0 #9ACBD0; 
     margin-bottom: 10px; 
     margin-right: 5px;
 }
