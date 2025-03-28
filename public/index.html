@@ -5,21 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="icon" type="image/png" href="Images/assessment.png">
 </head>
 <body class="body1">
-    <h1 class="mainName">DOME</h1>
-    <h3 class="descrip">Desempeño, Observación, Medición y Evaluación</h3>
+    <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
+    <h3 class="descrip animate__animated animate__fadeInUp">Desempeño, Observación, Medición y Evaluación</h3>
 
     <label for="user" class="loginT">User</label>
-    <input class="box" type="text" id="user" name="user" style="margin-bottom: 10px;" placeholder="Enter your User">
+    <input class="box animate__animated animate__fadeIn" type="text" id="user" name="user" style="margin-bottom: 10px;" placeholder="Enter your User">
     
     <label for="password" class="loginT">Password</label>
-    <input class="box" type="password" id="password" name="password" style="margin-bottom: 25px;" placeholder="Enter your Password">
+    <input class="box animate__animated animate__fadeIn" type="password" id="password" name="password" style="margin-bottom: 25px;" placeholder="Enter your Password">
     
-    <button class="bCreate" id="login" style="margin-bottom: 20px;">Log In</button>
+    <button class="bCreate animate__animated animate__pulse animate__infinite" id="login" style="margin-bottom: 20px;">Log In</button>
 
-    <p id="loadingMessage" class="tech" style="display: none;">Loading...</p>
+    <p id="loadingMessage" class="tech animate__animated animate__flash" style="display: none;">Loading...</p>
     
     <footer>Created by: Steve LóGi</footer>
     <script type="module">

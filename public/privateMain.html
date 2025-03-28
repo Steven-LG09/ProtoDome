@@ -6,25 +6,26 @@
     <title>TechSoftware</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Images/assessment.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body class="body3">
-    <h1 class="mainName">DOME</h1>
-    <h3 class="descrip">Desempeño, Observación, Medición y Evaluación</h4>
-    <div class="headerHDV">
+    <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
+    <h3 class="descrip animate__animated animate__fadeInUp">Desempeño, Observación, Medición y Evaluación</h3>
+    <div class="headerHDV animate__animated animate__fadeIn">
         <div class="headerBlock">
-            <button class="headButton" id="createPage">Crear Usuario</button>
+            <button class="headButton animate__animated animate__pulse animate__infinite" id="createPage">Crear Usuario</button>
         </div>
         <div class="headerBlock">
-            <h2 class="titleMain">Hojas de vida Docentes</h2>
+            <h2 class="titleMain animate__animated animate__fadeIn">Hojas de vida Docentes</h2>
         </div>
         <div class="headerBlock">
-            <button class="headButton" id="evaPage">Sistema de Evaluaciones</button>
+            <button class="headButton animate__animated animate__pulse animate__infinite" id="evaPage">Sistema de Evaluaciones</button>
         </div>
     </div>
-    <h4 class="titleMain" style="text-align: center;">Número de Docentes: <span id="docCount">Loading...</span></h4>
-    <div id="list" class="adds"></div>
+    <h4 class="titleMain animate__animated animate__fadeIn" style="text-align: center;">Número de Docentes: <span id="docCount">Loading...</span></h4>
+    <div id="list" class="adds animate__animated animate__fadeIn"></div>
     <br>
-    <footer>Created by: Steve LóGi</footer>
+    <footer class="animate__animated animate__fadeInUp">Created by: Steve LóGi</footer>
     <script type="module">
         import { createPage, evaPage} from "/app.js";
 
@@ -53,16 +54,18 @@
                 ? `https://drive.google.com/thumbnail?id=${product.fileUrl.split('id=')[1]}&sz=w1000` 
                 : product.fileUrl; 
             const myhtml = ` 
-                <div class="card">
+                <div class="card animate__animated animate__zoomIn">
                     <img src="${fileUrl}" class="card-img-top" alt="error en imagen">
                     <p class="card-title">${product.userName}</p>
-                    <button class="buttonPro" style="margin-right: 5%; margin-top: 10px" onclick="rePage('${product.userName}')">Ver más</button>
+                    <button class="buttonPro animate__animated animate__pulse animate__infinite" style="margin-right: 5%; margin-top: 10px" onclick="rePage('${product.userName}')">Ver más</button>
                 </div>
             `;
             li.innerHTML = myhtml;
             list.appendChild(li);
             });
         })
+        .catch(error => console.error("Error fetching resumes:", error));
+
         fetch('https://protodome.onrender.com/count', {
             method: "GET",
         })
@@ -74,6 +77,6 @@
             console.error("Error fetching document count:", error);
             document.getElementById("docCount").innerText = "Error";
         });
-        </script>
+    </script>
 </body>
 </html>

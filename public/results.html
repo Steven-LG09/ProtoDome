@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluation Results</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="icon" href="Images/assessment.png" type="image/png">
 </head>
 <body class="body2">
-    <h1 class="mainName">DOME</h1>
-    <h3 class="descrip">Desempeño, Observación, Medición y Evaluación</h3>
-    <h3 class="secondName2">Resultados de Evaluación Docente</h3>
-    <h4 class="titleMain" style="text-align: center;">Número de Evaluaciones Realizadas: <span id="docCount2">Loading...</span></h4>
-    <div id="list3" class="resultsEva"></div>
+    <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
+    <h3 class="descrip animate__animated animate__fadeIn">Desempeño, Observación, Medición y Evaluación</h3>
+    <h3 class="secondName2 animate__animated animate__fadeIn">Resultados de Evaluación Docente</h3>
+    <h4 class="titleMain animate__animated animate__fadeInUp" style="text-align: center;">Número de Evaluaciones Realizadas: <span id="docCount2">Loading...</span></h4>
+    <div id="list3" class="resultsEva animate__animated animate__zoomIn"></div>
     <br>
-    <footer>Created by: Steve LóGi</footer>
+    <footer class="animate__animated animate__fadeInUp">Created by: Steve LóGi</footer>
     <script>
         fetch('https://protodome.onrender.com/qualiMe',{
             method: "GET",
@@ -34,7 +35,7 @@
                 ? `https://drive.google.com/thumbnail?id=${product.fileUrl.split('id=')[1]}&sz=w1000` 
                 : product.fileUrl; 
             const myhtml = ` 
-                <div class="resultsBlock">
+                <div class="resultsBlock animate__animated animate__fadeInUp">
                     <div class="photoBlock">
                         <img class="resultsPhoto" src="${fileUrl}" alt="proPhoto">
                     </div>
@@ -43,12 +44,12 @@
                     </div>
                     <div class="mobileBlock">
                         <div class="noteBlock">
-                        <button class="resultsButton" onclick="staPage('${product.userName}')">
+                        <button class="resultsButton animate__animated animate__pulse animate__infinite" onclick="staPage('${product.userName}')">
                             <img src="Images/qualification.png">
                         </button>
                         </div>
                         <div class="messagesBlock">
-                        <button class="resultsButton" onclick="obsPage('${product.userName}')">
+                        <button class="resultsButton animate__animated animate__pulse animate__infinite" onclick="obsPage('${product.userName}')">
                             <img src="Images/comments.png">
                         </button>
                         </div>

@@ -6,22 +6,25 @@
     <title>User Creation</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Images/assessment.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body class="body1">
-    <h1 class="mainName">DOME</h1>
-    <h4 class="descrip">Desempeño, Observación, Medición y Evaluación</h4>
-    <h4 class="titleMain" style="text-align: center;">Número de Estudiantes: <span id="docCount">1</span></h4>
-    <input class="box" type="text" id="newUser" placeholder="Ingrese el código">
-    <div class="blockF" style="margin-top: 1%;">
+    <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
+    <h4 class="descrip animate__animated animate__fadeInUp">Desempeño, Observación, Medición y Evaluación</h4>
+    <h4 class="titleMain animate__animated animate__zoomIn" style="text-align: center;">
+        Número de Estudiantes: <span id="docCount">1</span>
+    </h4>
+    <input class="box animate__animated animate__fadeIn" type="text" id="newUser" placeholder="Ingrese el código">
+    <div class="blockF animate__animated animate__fadeInUp" style="margin-top: 1%;">
         <div class="blockF1">
-            <button class="headButton" id="createUser" style="margin-right: 10%;">Crear</button>
+            <button class="headButton animate__animated animate__pulse animate__infinite" id="createUser" style="margin-right: 10%;">Crear</button>
         </div>
         <div class="blockF1">
-            <button class="headButton" id="deleteUser" style="margin-left: 10%;">Eliminar</button>
+            <button class="headButton animate__animated animate__pulse animate__infinite" id="deleteUser" style="margin-left: 10%;">Eliminar</button>
         </div>
     </div>
-    <p id="loadingMessage" class="tech" style="display: none;">Loading...</p>
+    <p id="loadingMessage" class="tech animate__animated animate__flash" style="display: none;">Loading...</p>
     <br>
-    <footer>Created by: Steve LóGi</footer>
+    <footer class="animate__animated animate__fadeIn">Created by: Steve LóGi</footer>
 </body>
 </html>

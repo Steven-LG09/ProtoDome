@@ -6,16 +6,18 @@
     <title>Comments</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Images/assessment.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body class="body3">
-    <h1 class="mainName">DOME</h1>
-    <h3 class="descrip">Desempeño, Observación, Medición y Evaluación</h3>
-    <h3 class="titleMain">Observaciones de la Evaluación del Docente:</h3>
-    <h2 class="titleMain" id="nameDisplay4">Nombre Docente</h2>
+    <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
+    <h3 class="descrip animate__animated animate__fadeIn">Desempeño, Observación, Medición y Evaluación</h3>
+    <h3 class="titleMain animate__animated animate__fadeInUp">Observaciones de la Evaluación del Docente:</h3>
+    <h2 class="titleMain animate__animated animate__zoomIn" id="nameDisplay4">Nombre Docente</h2>
 
-    <div id="resultsTable2"></div>
+    <div id="resultsTable2" class="animate__animated animate__fadeIn"></div>
     <br>
-    <footer>Created by: Steve LóGi</footer>
+    <footer class="animate__animated animate__bounceIn">Created by: Steve LóGi</footer>
+    
     <script>
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -56,7 +58,7 @@
                 if (courses[course].length === 0) return;
 
                 const tableTitle = document.createElement("h2");
-                tableTitle.innerHTML = `<h3 class="titleMain">${course}</h3>`;
+                tableTitle.innerHTML = `<h3 class="titleMain animate__animated animate__fadeInUp">${course}</h3>`;
                 table.appendChild(tableTitle);
 
                 const container = document.createElement("table");
@@ -76,7 +78,7 @@
                 courses[course].forEach((entry, index) => {
                     const comment = entry.comment.trim();
                     if (comment) {
-                        tbody.innerHTML += `<tr><td>Estudiante ${index + 1}</td><td>${comment}</td></tr>`;
+                        tbody.innerHTML += `<tr class="animate__animated animate__fadeIn"><td>Estudiante ${index + 1}</td><td>${comment}</td></tr>`;
                     }
                 });
             });

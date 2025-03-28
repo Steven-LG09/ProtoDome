@@ -6,14 +6,16 @@
     <title>Resume Info</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Images/assessment.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body class="body2">
-    <h1 class="mainName">DOME</h1>
-    <h3 class="descrip">Software Development Technology</h3>
+    <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
+    <h3 class="descrip animate__animated animate__fadeIn">Software Development Technology</h3>
 
-    <div id="resume-data"><h2 class="secondName">Loading...</h2></div>
+    <div id="resume-data" class="animate__animated animate__fadeInUp"><h2 class="secondName">Loading...</h2></div>
     <br>
-    <footer>Created by: Steve LóGi</footer>
+    <footer class="animate__animated animate__fadeInUp">Created by: Steve LóGi</footer>
+    
     <script>
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -34,9 +36,9 @@
                         : resume.fileUrl;
     
                     document.getElementById("resume-data").innerHTML = `
-                        <div class="personalInfo2">
+                        <div class="personalInfo2 animate__animated animate__zoomIn">
                             <div class="photoH">
-                                <img src="${fileUrl || ''}" alt="photo HDV" class="mainPhoto">
+                                <img src="${fileUrl || ''}" alt="photo HDV" class="mainPhoto animate__animated animate__fadeIn">
                             </div>
                             <div class="contentInfo2">
                                 <h2 class="secondName">Información Personal</h2>
@@ -67,22 +69,18 @@
                         <div class="listGenere"><p>  
                             ${resume.studies?.map(v => `- Título como ${v.studyName} en ${v.placeName}.`).join('<br>') || "No studies available"}
                         </p></div>
-                        <div class="listGenere"><p>
-                            ${resume.degrees?.map(v => `<a href="${v}" target="_blank">Título de estudio</a>`).join(', ') || "No degrees available"}
-                        </p></div>
     
                         <h2 class="secondName">Experiencia Laboral</h2>
                         <div class="listGenere"><p>  
-                            ${resume.jobs?.map(v => `- He trabajado en  ${v.companyName} ubicado en ${v.cityName}, el teléfono de la empresa es  ${v.phoneValue}, 
-                            estuve durante  ${v.timeValue} meses, mi cargo fue ${v.roleName}, con este contrato: ${v.contractName}.`).join('<br><br>') || "No experience available"}
+                            ${resume.jobs?.map(v => `- He trabajado en  ${v.companyName} ubicado en ${v.cityName}, el teléfono de la empresa es  ${v.phoneValue}, estuve durante  ${v.timeValue} meses, mi cargo fue ${v.roleName}, con este contrato: ${v.contractName}.`).join('<br><br>') || "No experience available"}
                         </p></div>
     
-                        <h2 class="secondName">Idiomas</h2>
+                        <h2 class="secondName ">Idiomas</h2>
                         <div class="listGenere"><p>  
                             ${resume.languages?.map(v => `- Hablo ${v.languageName}, en el nivel  ${v.levelName}.`).join('<br>') || "No languages available"}
                         </p></div>
     
-                        <h2 class="secondName">Habilidades Técnicas</h2>
+                        <h2 class="secondName ">Habilidades Técnicas</h2>
                         <div class="listGenere"><p>  
                             ${resume.skills?.map(v => `- Tengo conocimiento en ${v.skillName}, en el nivel ${v.skillLevel}.`).join('<br>') || "No skills available"}
                         </p></div>
@@ -90,7 +88,7 @@
                         <h2 class="secondName">Firma</h2>
                         <div class="listGenere"><a href="${resume.signature || '#'}" target="_blank">Firma del docente<a/></div>
                         <br>
-                        <button class="deleteBu" >Eliminar Hoja de Vida</button>
+                        <button class="deleteBu animate__animated animate__shakeX">Eliminar Hoja de Vida</button>
                     `;
                 }
             })
@@ -100,15 +98,15 @@
         } else {
             document.getElementById('nameDisplay3').innerText = "Welcome, Guest!";
         }
-
-          function checkLinkedIn(event, linkedin) {
+    
+        function checkLinkedIn(event, linkedin) {
             if (!linkedin) {
-              event.preventDefault();
-              alert("El docente no ingresó su LinkedIn");
+                event.preventDefault();
+                alert("El docente no ingresó su LinkedIn");
             } else {
-              event.target.href = linkedin; 
+                event.target.href = linkedin; 
             }
-          }
+        }
     </script>
 </body>
 </html>
