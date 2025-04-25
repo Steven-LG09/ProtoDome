@@ -10,7 +10,8 @@
 </head>
 <body class="body1">
     <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
-    <h4 class="descrip animate__animated animate__fadeInUp">Desempeño, Observación, Medición y Evaluación</h4>
+    <h4 class="descrip animate__animated animate__zoomIn">Desempeño, Observación, Medición y Evaluación</h4>
+    <!--<h2 class="titleH2">Creación de usuario Estudiante</h2>
     <h4 class="titleMain animate__animated animate__zoomIn" style="text-align: center;">
         Número de Estudiantes: <span id="docCount">1</span>
     </h4>
@@ -22,7 +23,19 @@
         <div class="blockF1">
             <button class="headButton animate__animated animate__pulse animate__infinite" id="deleteUser" style="margin-left: 10%;">Eliminar</button>
         </div>
-    </div>
+    </div>-->
+    <h2 class="titleH2 animate__animated animate__fadeInUp animate__delay-1s">Creación de usuario Docente</h2>
+    <h4 class="titleMain animate__animated animate__fadeInUp animate__delay-1s" style="text-align: center;">
+        Número de Docentes: <span id="docCount">1</span>
+    </h4>
+    <select class="courseA animate__animated animate__fadeInUp animate__delay-1s" id="courseE" required>
+        <option selected disabled>Seleccione Un Programa Académico</option>
+        <option>Tecnología En Desarrollo De Software</option>
+        <option>Medicina</option>
+        <option>Ingenería Electrónica</option>
+    </select>
+    <input class="boxCreate animate__animated animate__fadeInUp animate__delay-1s" type="number" id="newUser" placeholder="Número de Usuarios">
+    <button class="createUserB animate__animated animate__fadeInUp animate__delay-1s" id="createUser">Crear</button>
     <p id="loadingMessage" class="tech animate__animated animate__flash" style="display: none;">Loading...</p>
     <br>
     <footer class="animate__animated animate__fadeIn">Created by: Steve LóGi</footer>

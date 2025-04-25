@@ -25,6 +25,12 @@ form{
     text-shadow: 3px 3px 5px #D5E5D5;
     font-size: 60px;
 }
+.titleH2{
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    color: #205781;
+    text-shadow: 3px 3px 5px #D5E5D5;
+}
 .mainName2{
     text-align: center;
     height: 30px;
@@ -131,6 +137,17 @@ form{
     height: 25px;
     font-size: 15px;
 }
+.boxCreate{ /* used */
+    border-radius: 15px;
+    background-color: whitesmoke;
+    border: 1.5px solid #4F959D;
+    color: #205781;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    width: 15%;
+    font-size: 17px;
+    margin-top: 10px;
+}
 .boxMain{
     display: none;
     border-radius: 15px;
@@ -209,7 +226,7 @@ footer{ /* used */
     font-size: 13px;
     text-align: center;
 }
-.bCreate:hover,.bCreateMain:hover,.resultsButton:hover,.bCreate2:hover,.buttonPro:hover,.headButton:hover{
+.bCreate:hover,.bCreateMain:hover,.resultsButton:hover,.bCreate2:hover,.buttonPro:hover,.headButton:hover,.createUserB:hover{
     box-shadow: 0 12px 16px 0 #4F959D, 0 17px 50px 0 #D5E5D5;
     background-color: #205781;
     color: white;
@@ -300,6 +317,16 @@ background-color: white;
     color: #205781;
     background-color: whitesmoke;
     font-size: 15px;
+    text-align: center;
+}
+.courseA{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #4F959D;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #205781;
+    background-color: whitesmoke;
+    font-size: 17px;
     text-align: center;
 }
 .deleteAdd{
@@ -455,6 +482,18 @@ textarea { /* used */
     font-size: 20px;
     cursor: grabbing;
     float: right;
+}
+.createUserB{ /* Used */
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #3674B5;
+    width: 20%;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #3674B5;
+    background-color: whitesmoke;
+    font-size: 20px;
+    cursor: grabbing;
+    margin-top: 10px;
 }
 .resultsBlock{ /* Used */
     display: flex;
