@@ -5,6 +5,7 @@ import multer from "multer";
 import mongoose from 'mongoose';
 import { google } from "googleapis";
 import streamifier from "streamifier";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
