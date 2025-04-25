@@ -43,11 +43,26 @@ const evaluationSchema = new mongoose.Schema({
   question10: Number,
   comment: String
 });
+const userSchema = new mongoose.Schema({
+  user: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
+  academic: { type: String, required: true },
+});
 
 const Resume = mongoose.models[process.env.COLLECTION_NAME] || mongoose.model(process.env.COLLECTION_NAME, resumeSchema);
 const Evaluation = mongoose.models[process.env.COLLECTION_NAME2] || mongoose.model(process.env.COLLECTION_NAME2, evaluationSchema);
+const User = mongoose.models[process.env.COLLECTION_NAME] || mongoose.model(process.env.COLLECTION_NAME, userSchema);
 
 const upload = multer({ storage: multer.memoryStorage() });
+
+function generatePassword(length = 8) {
+  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let pass = "";
+  for (let i = 0; i < length; i++) {
+    pass += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return pass;
+}
 
 const auth = new google.auth.GoogleAuth({
   credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS), 
@@ -225,6 +240,40 @@ app.get("/count2", async (req, res) => {
       res.json({ count });
   } catch (error) {
       res.status(500).json({ error: error.message });
+  }
+});
+app.post("/addUsers", async (req, res) => {
+  try {
+    const { users, academic } = req.body;
+    const createdUsers = [];
+
+    // Buscar usuarios ya existentes con nombres similares
+    const existingUsers = await User.find({ user: /docente\d+/ });
+    const numbers = existingUsers
+      .map(u => parseInt(u.user.replace("docente", "")))
+      .filter(n => !isNaN(n));
+    let currentIndex = numbers.length ? Math.max(...numbers) + 1 : 1;
+
+    for (let i = 0; i < users; i++) {
+      const userName = `docente${currentIndex}`;
+      const password = generatePassword();
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newUser = new User({
+        user: userName,
+        password: hashedPassword,
+        academic,
+      });
+
+      await newUser.save();
+      createdUsers.push({ user: userName, password });
+      currentIndex++;
+    }
+
+    res.status(200).json({ message: "Usuarios creados", createdUsers });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al crear usuarios" });
   }
 });
 app.get("/stats", async (req, res) => {

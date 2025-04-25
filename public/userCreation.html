@@ -8,7 +8,7 @@
     <link rel="icon" href="Images/assessment.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
-<body class="body1">
+<body class="body1" data-page="userCreation">
     <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
     <h4 class="descrip animate__animated animate__zoomIn">Desempeño, Observación, Medición y Evaluación</h4>
     <!--<h2 class="titleH2">Creación de usuario Estudiante</h2>
@@ -26,15 +26,15 @@
     </div>-->
     <h2 class="titleH2 animate__animated animate__fadeInUp animate__delay-1s">Creación de usuario Docente</h2>
     <h4 class="titleMain animate__animated animate__fadeInUp animate__delay-1s" style="text-align: center;">
-        Número de Docentes: <span id="docCount">1</span>
+        Número de Docentes: <span id="docCount">Loading ...</span>
     </h4>
-    <select class="courseA animate__animated animate__fadeInUp animate__delay-1s" id="courseE" required>
+    <select class="courseA animate__animated animate__fadeInUp animate__delay-1s" id="courseA" required>
         <option selected disabled>Seleccione Un Programa Académico</option>
         <option>Tecnología En Desarrollo De Software</option>
         <option>Medicina</option>
         <option>Ingenería Electrónica</option>
     </select>
-    <input class="boxCreate animate__animated animate__fadeInUp animate__delay-1s" type="number" id="newUser" placeholder="Número de Usuarios">
+    <input class="boxCreate animate__animated animate__fadeInUp animate__delay-1s" type="number" id="newUsers" placeholder="Número de Usuarios">
     <button class="createUserB animate__animated animate__fadeInUp animate__delay-1s" id="createUser">Crear</button>
     <p id="loadingMessage" class="tech animate__animated animate__flash" style="display: none;">Loading...</p>
     <br>

@@ -1,29 +1,34 @@
 export async function login() {
-    const user = document.getElementById("user").value;
-    const password = document.getElementById("password").value;
-    loadingMessage.style.display = "block";
-  
-    const response = await fetch('https://protodome.onrender.com/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user, password })
-    });
-    
-    const result = await response.json();
-  
-    if (result.success && result.redirectUrl) {
-      loadingMessage.style.display = "none";
-      window.location.href = result.redirectUrl; 
-    }else{
-      loadingMessage.style.display = "none";
-      alert("Usuario o Contraseña incorrecto")
-    }
+  const user = document.getElementById("user").value;
+  const password = document.getElementById("password").value;
+  loadingMessage.style.display = "block";
+
+  const response = await fetch('https://protodome.onrender.com/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      user,
+      password
+    })
+  });
+
+  const result = await response.json();
+
+  if (result.success && result.redirectUrl) {
+    loadingMessage.style.display = "none";
+    window.location.href = result.redirectUrl;
+  } else {
+    loadingMessage.style.display = "none";
+    alert("Usuario o Contraseña incorrecto")
+  }
 }
 export async function addData() {
   const name = document.getElementById("nombre").value;
   const photo = document.getElementById("photo").files[0];
   const loadingMessage = document.getElementById("loadingMessage");
-  
+
   loadingMessage.style.display = "block";
 
   const formData = new FormData();
@@ -59,7 +64,7 @@ export async function addEva() {
   const question8 = document.getElementById("slider8").value;
   const question9 = document.getElementById("slider9").value;
   const question10 = document.getElementById("slider10").value;
-  const comment = document.getElementById("obser").value; 
+  const comment = document.getElementById("obser").value;
 
   const requestBody = {
     professor,
@@ -93,9 +98,9 @@ export async function addEva() {
     alert(data.message);
   }
 }
-export async function createPage(){
+export async function createPage() {
   try {
-    const response = await fetch('https://protodome.onrender.com/cDocente', { 
+    const response = await fetch('https://protodome.onrender.com/cDocente', {
       method: 'POST',
     });
     const data = await response.json();
@@ -108,9 +113,9 @@ export async function createPage(){
     console.error("Error redirecting:", error);
   }
 }
-export async function evaPage(){
+export async function evaPage() {
   try {
-    const response = await fetch('https://protodome.onrender.com/rPrivate', { 
+    const response = await fetch('https://protodome.onrender.com/rPrivate', {
       method: 'POST',
     });
     const data = await response.json();
@@ -123,21 +128,87 @@ export async function evaPage(){
     console.error("Error redirecting:", error);
   }
 }
-async function rePage(name){
+async function rePage(name) {
   try {
-      const response = await fetch(`https://protodome.onrender.com/rPage?name=${encodeURIComponent(name)}`, { 
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json',}
-      });
-
-      const data = await response.json();
-      if (data.success) {
-          window.location.href = data.redirectUrl;
-      } else {
-          alert("Access denied.");
+    const response = await fetch(`https://protodome.onrender.com/rPage?name=${encodeURIComponent(name)}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       }
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      window.location.href = data.redirectUrl;
+    } else {
+      alert("Access denied.");
+    }
   } catch (error) {
-      console.error("Error redirecting:", error);
+    console.error("Error redirecting:", error);
   }
 }
 window.rePage = rePage;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const page = document.body.dataset.page;
+  const loadingMessage = document.getElementById("loadingMessage");
+
+  const pages = {
+    userCreation: () => {
+      const creserButton1 = document.getElementById("createUser");
+
+      fetch('https://protodome.onrender.com/count', { 
+          method: "GET",
+        })
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("docCount").innerText = data.count;
+        })
+        .catch(error => {
+          console.error("Error fetching document count:", error);
+          document.getElementById("docCount").innerText = "Error";
+        });
+
+      if (creserButton1) creserButton1.addEventListener("click", async () => {
+        const users = parseInt(document.getElementById("newUsers").value);
+        const academic = document.getElementById("courseA").value;
+        loadingMessage.style.display = "block";
+
+        const response = await fetch("https://protodome.onrender.com/addUsers", { 
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            users,
+            academic,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          const createdUsers = result.createdUsers;
+
+          let message = "✅ Usuarios creados:\n\n";
+          createdUsers.forEach(({
+            user,
+            password
+          }) => {
+            message += `👤 Usuario: ${user} | 🔑 Contraseña: ${password}\n`;
+          });
+
+          alert(message);
+
+          document.getElementById("newUsers").value = "";
+          loadingMessage.style.display = "none";
+          location.reload();
+        } else {
+          alert(`❌ Error: ${result.error}`);
+        }
+
+      })
+    }
+  };
+  if (pages[page]) pages[page]();
+});
