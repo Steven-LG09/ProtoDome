@@ -172,6 +172,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (creserButton1) creserButton1.addEventListener("click", async () => {
         const users = parseInt(document.getElementById("newUsers").value);
         const academic = document.getElementById("courseA").value;
+
+        if (isNaN(users) || users <= 0) {
+          alert("❌ Ingresa un número válido de usuarios (mayor que 0)");
+          return;
+        }
+    
+        if (!academic) {
+          alert("❌ Ingresa un nombre de curso académico");
+          return;
+        }
         loadingMessage.style.display = "block";
 
         const response = await fetch("https://protodome.onrender.com/addUsers", { 

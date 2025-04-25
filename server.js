@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema({
 
 const Resume = mongoose.models[process.env.COLLECTION_NAME] || mongoose.model(process.env.COLLECTION_NAME, resumeSchema);
 const Evaluation = mongoose.models[process.env.COLLECTION_NAME2] || mongoose.model(process.env.COLLECTION_NAME2, evaluationSchema);
-const User = mongoose.model("docentes", userSchema);
+const User = mongoose.model(process.env.COLLECTION_NAME3, userSchema);
 
 const upload = multer({ storage: multer.memoryStorage() });
 
