@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     userCreation: () => {
       const creserButton1 = document.getElementById("createUser");
 
-      fetch('https://protodome.onrender.com/count', { 
+      fetch('https://protodome.onrender.com/count3', { 
           method: "GET",
         })
         .then(response => response.json())

@@ -243,6 +243,14 @@ app.get("/count2", async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 });
+app.get("/count3", async (req, res) => {
+  try {
+      const count = await User.countDocuments();
+      res.json({ count });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
 app.post("/addUsers", async (req, res) => {
   try {
     const { users, academic } = req.body;
