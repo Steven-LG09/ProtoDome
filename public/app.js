@@ -1,27 +1,31 @@
 export async function login() {
   const user = document.getElementById("user").value;
   const password = document.getElementById("password").value;
+  const firstLetter = user.charAt(0).toLowerCase();
   loadingMessage.style.display = "block";
 
-  const response = await fetch('https://protodome.onrender.com/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      user,
-      password
-    })
-  });
-
-  const result = await response.json();
-
-  if (result.success && result.redirectUrl) {
-    loadingMessage.style.display = "none";
-    window.location.href = result.redirectUrl;
+  if (firstLetter !== 'd') {
+    const response = await fetch('https://protodome.onrender.com/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user,
+        password
+      })
+    });
+    const result = await response.json();
+  
+    if (result.success && result.redirectUrl) {
+      loadingMessage.style.display = "none";
+      window.location.href = result.redirectUrl;
+    } else {
+      loadingMessage.style.display = "none";
+      alert("Usuario o Contraseña incorrecto")
+    }
   } else {
-    loadingMessage.style.display = "none";
-    alert("Usuario o Contraseña incorrecto")
+    alert("test drive");
   }
 }
 export async function addData() {
@@ -157,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
     userCreation: () => {
       const creserButton1 = document.getElementById("createUser");
 
-      fetch('https://protodome.onrender.com/count3', { 
+      fetch('https://protodome.onrender.com/count3', {
           method: "GET",
         })
         .then(response => response.json())
@@ -177,14 +181,14 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("❌ Ingresa un número válido de usuarios (mayor que 0)");
           return;
         }
-    
+
         if (!academic) {
           alert("❌ Ingresa un nombre de curso académico");
           return;
         }
         loadingMessage.style.display = "block";
 
-        const response = await fetch("https://protodome.onrender.com/addUsers", { 
+        const response = await fetch("https://protodome.onrender.com/addUsers", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
