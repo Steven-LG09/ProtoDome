@@ -8,8 +8,8 @@ User: admin@dome.com
 Password: test2025
 
 - To Sign In like a Professor
-User: user@dome.com
-Password: test2025
+User: docente1
+Password: MFObbUuJ
 
 - To Sign In like a Student
 User: student@dome.com
