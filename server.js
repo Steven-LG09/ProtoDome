@@ -174,8 +174,7 @@ app.post("/login2", async (req, res) => {
 
     res.json({
       success: true,
-      redirectUrl: process.env.CREATENTE,
-      token,
+      redirectUrl: process.env.CREATENTE
     });
 
   } catch (error) {
