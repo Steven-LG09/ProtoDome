@@ -16,7 +16,7 @@ export async function login() {
       })
     });
     const result = await response.json();
-  
+
     if (result.success && result.redirectUrl) {
       loadingMessage.style.display = "none";
       window.location.href = result.redirectUrl;
@@ -25,7 +25,25 @@ export async function login() {
       alert("Usuario o Contraseña incorrecto")
     }
   } else {
-    alert("test drive");
+    const response = await fetch('https://protodome.onrender.com/login2', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user,
+        password
+      })
+    });
+    const result = await response.json();
+
+    if (result.success && result.redirectUrl) {
+      loadingMessage.style.display = "none";
+      window.location.href = result.redirectUrl;
+    } else {
+      loadingMessage.style.display = "none";
+      alert("Usuario o Contraseña incorrecto")
+    }
   }
 }
 export async function addData() {
@@ -205,14 +223,25 @@ document.addEventListener("DOMContentLoaded", () => {
           const createdUsers = result.createdUsers;
 
           let message = "✅ Usuarios creados:\n\n";
-          createdUsers.forEach(({
-            user,
-            password
-          }) => {
-            message += `👤 Usuario: ${user} | 🔑 Contraseña: ${password}\n`;
+          let fileContent = "Usuarios creados:\n\n";
+    
+          createdUsers.forEach(({ user, password }) => {
+            const line = `👤 Usuario: ${user} | 🔑 Contraseña: ${password}\n`;
+            message += line;
+            fileContent += `Usuario: ${user} | Contraseña: ${password}\n`;
           });
 
           alert(message);
+
+          const blob = new Blob([fileContent], { type: "text/plain" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "usuarios_creados.txt";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
 
           document.getElementById("newUsers").value = "";
           loadingMessage.style.display = "none";

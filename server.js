@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import multer from "multer";
 import mongoose from 'mongoose';
-import { google } from "googleapis";
+import {
+  google
+} from "googleapis";
 import streamifier from "streamifier";
 import bcrypt from "bcrypt";
 
@@ -12,13 +14,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 9000;
 const allowedUser1 = process.env.allowedUser1;
-const allowedUser2 = process.env.allowedUser2;
 const allowedUser3 = process.env.allowedUser3;
 const allowedPass = process.env.allowedPass;
 
 app.use(express.static(process.env.STATIC));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(cors());
 
 mongoose.connect(process.env.MONGO_URI)
@@ -45,16 +48,28 @@ const evaluationSchema = new mongoose.Schema({
   comment: String
 });
 const userSchema = new mongoose.Schema({
-  user: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  academic: { type: String, required: true },
+  user: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  academic: {
+    type: String,
+    required: true
+  },
 });
 
 const Resume = mongoose.models[process.env.COLLECTION_NAME] || mongoose.model(process.env.COLLECTION_NAME, resumeSchema);
 const Evaluation = mongoose.models[process.env.COLLECTION_NAME2] || mongoose.model(process.env.COLLECTION_NAME2, evaluationSchema);
 const User = mongoose.model(process.env.COLLECTION_NAME3, userSchema);
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({
+  storage: multer.memoryStorage()
+});
 
 function generatePassword(length = 8) {
   const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -66,56 +81,124 @@ function generatePassword(length = 8) {
 }
 
 const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS), 
+  credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS),
   scopes: ["https://www.googleapis.com/auth/drive"],
 });
 
-const drive = google.drive({ version: "v3", auth });
+const drive = google.drive({
+  version: "v3",
+  auth
+});
 
 async function makeFilePublic(fileId) {
   await drive.permissions.create({
     fileId,
     requestBody: {
       role: "reader",
-      type: "anyone", 
+      type: "anyone",
     },
   });
 
   return `https://lh3.googleusercontent.com/d/${fileId}=w1000`;
 }
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + process.env.MAIN);
+  res.sendFile(__dirname + process.env.MAIN);
 });
 app.post("/login", async (req, res) => {
-    const { user, password } = req.body;
-    try {
-        let redirectUrl;
-        if (user === allowedUser1 && password === allowedPass) {
-          redirectUrl = process.env.PRIVATE_MAIN;
-        } else if (user === allowedUser2 && password === allowedPass) {
-          redirectUrl = process.env.CREATENTE;
-            } else if (user === allowedUser3 && password === allowedPass) {
-            redirectUrl = process.env.PUBLIC_MAIN;
-                }else {
-                    return res
-                        .status(403)
-                        .json({ success: false, message: "Usuario No Autorizado" });
-                    }
-  
-        return res.json({
-          success: true,
-          redirectUrl,
+  const {
+    user,
+    password
+  } = req.body;
+  try {
+    let redirectUrl;
+    if (user === allowedUser1 && password === allowedPass) {
+      redirectUrl = process.env.PRIVATE_MAIN;
+    } else if (user === allowedUser3 && password === allowedPass) {
+      redirectUrl = process.env.PUBLIC_MAIN;
+    } else {
+      return res
+        .status(403)
+        .json({
+          success: false,
+          message: "Usuario No Autorizado"
         });
-    } catch (error) {
-      return res.status(500).json({ success: false, message: "Error Iniciando Sesión: " + error.message });
     }
+
+    return res.json({
+      success: true,
+      redirectUrl,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error Iniciando Sesión: " + error.message
+    });
+  }
+});
+app.post("/login2", async (req, res) => {
+  const keys = Object.keys(req.body);
+
+  if (keys.length !== 2 || !keys.includes("user") || !keys.includes("password")) {
+    return res.status(400).json({
+      success: false,
+      message: "Usuario o Contraseña Inválido",
+    });
+  }
+
+  const {
+    user,
+    password
+  } = req.body;
+
+  try {
+    const foundUser = await User.findOne({
+      user
+    });
+
+    if (!foundUser) {
+      return res.status(400).json({
+        success: false,
+        message: "Usuario o Contraseña Inválido"
+      });
+    }
+
+    // Aquí usamos bcrypt para comparar la contraseña enviada vs la contraseña hasheada
+    const isPasswordValid = await bcrypt.compare(password, foundUser.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        success: false,
+        message: "Usuario o Contraseña Inválido"
+      });
+    }
+
+    res.json({
+      success: true,
+      redirectUrl: process.env.CREATENTE,
+      token,
+    });
+
+  } catch (error) {
+    console.error("Error en /login2:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Ocurrió un error. Por favor, intenta más tarde.",
+    });
+  }
 });
 app.post('/posthdv', upload.single("photo"), async (req, res) => {
   try {
-    const { name } = req.body;
+    const {
+      name
+    } = req.body;
 
-    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-    if (!name) return res.status(400).json({ error: "Missing required fields" });
+    if (!req.file) return res.status(400).json({
+      error: "No file uploaded"
+    });
+    if (!name) return res.status(400).json({
+      error: "Missing required fields"
+    });
 
     const fileMetadata = {
       name: req.file.originalname,
@@ -137,75 +220,107 @@ app.post('/posthdv', upload.single("photo"), async (req, res) => {
 
     const publicUrl = await makeFilePublic(fileId);
 
-    const newResume = new Resume({ 
+    const newResume = new Resume({
       fileUrl: publicUrl,
-      userName: name 
+      userName: name
     });
     await newResume.save();
 
-    res.json({ message: "Upload successful", success: true, redirectUrl: process.env.THANKS });
+    res.json({
+      message: "Upload successful",
+      success: true,
+      redirectUrl: process.env.THANKS
+    });
 
   } catch (error) {
     console.error("Storage Upload Error:", error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 app.get("/qualiMe", async (req, res) => {
   try {
-      const resumes = await Resume.find({}, "userName fileUrl -_id");
+    const resumes = await Resume.find({}, "userName fileUrl -_id");
 
-      if (resumes.length === 0) {
-          return res.status(404).json({ message: "No resumes found" });
-      }
+    if (resumes.length === 0) {
+      return res.status(404).json({
+        message: "No resumes found"
+      });
+    }
 
-      res.json(resumes);
+    res.json(resumes);
   } catch (error) {
-      console.error("Error fetching resumes:", error);
-      res.status(500).json({ error: "Failed to fetch resumes" });
+    console.error("Error fetching resumes:", error);
+    res.status(500).json({
+      error: "Failed to fetch resumes"
+    });
   }
 });
 app.get('/sPage', (req, res) => {
-  const name = req.query.name; 
+  const name = req.query.name;
 
   if (name) {
-      res.json({ 
-          success: true, 
-          redirectUrl: `/stadistic.html?name=${encodeURIComponent(name)}` 
-      });
+    res.json({
+      success: true,
+      redirectUrl: `/stadistic.html?name=${encodeURIComponent(name)}`
+    });
   } else {
-      res.json({ success: false, message: "Name is required" });
+    res.json({
+      success: false,
+      message: "Name is required"
+    });
   }
 });
 app.get('/oPage', (req, res) => {
-  const name = req.query.name; 
+  const name = req.query.name;
 
   if (name) {
-      res.json({ 
-          success: true, 
-          redirectUrl: `/observation.html?name=${encodeURIComponent(name)}` 
-      });
+    res.json({
+      success: true,
+      redirectUrl: `/observation.html?name=${encodeURIComponent(name)}`
+    });
   } else {
-      res.json({ success: false, message: "Name is required" });
+    res.json({
+      success: false,
+      message: "Name is required"
+    });
   }
 });
 app.get('/ePage', (req, res) => {
-  const name = req.query.name; 
+  const name = req.query.name;
 
   if (name) {
-      res.json({ 
-          success: true, 
-          redirectUrl: `/evaluationPage.html?name=${encodeURIComponent(name)}` 
-      });
+    res.json({
+      success: true,
+      redirectUrl: `/evaluationPage.html?name=${encodeURIComponent(name)}`
+    });
   } else {
-      res.json({ success: false, message: "Name is required" });
+    res.json({
+      success: false,
+      message: "Name is required"
+    });
   }
 });
 app.post('/postEva', async (req, res) => {
   try {
-    const {professor,course,question1,question2,question3,question4,question5,question6,question7,
-        question8,question9,question10,comment} = req.body;
+    const {
+      professor,
+      course,
+      question1,
+      question2,
+      question3,
+      question4,
+      question5,
+      question6,
+      question7,
+      question8,
+      question9,
+      question10,
+      comment
+    } = req.body;
 
-    const newEvaluation = new Evaluation({ 
+    const newEvaluation = new Evaluation({
       professor: professor,
       course: course,
       question1: question1,
@@ -222,42 +337,65 @@ app.post('/postEva', async (req, res) => {
     });
     await newEvaluation.save();
 
-    res.json({ message: "Upload successful",success: true, redirectUrl: process.env.THANKS2});
+    res.json({
+      message: "Upload successful",
+      success: true,
+      redirectUrl: process.env.THANKS2
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 app.get("/count", async (req, res) => {
   try {
-      const count = await Resume.countDocuments();
-      res.json({ count });
+    const count = await Resume.countDocuments();
+    res.json({
+      count
+    });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 app.get("/count2", async (req, res) => {
   try {
-      const count = await Evaluation.countDocuments();
-      res.json({ count });
+    const count = await Evaluation.countDocuments();
+    res.json({
+      count
+    });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 app.get("/count3", async (req, res) => {
   try {
-      const count = await User.countDocuments();
-      res.json({ count });
+    const count = await User.countDocuments();
+    res.json({
+      count
+    });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 app.post("/addUsers", async (req, res) => {
   try {
-    const { users, academic } = req.body;
+    const {
+      users,
+      academic
+    } = req.body;
     const createdUsers = [];
 
     // Buscar usuarios ya existentes con nombres similares
-    const existingUsers = await User.find({ user: /docente\d+/ });
+    const existingUsers = await User.find({
+      user: /docente\d+/
+    });
     const numbers = existingUsers
       .map(u => parseInt(u.user.replace("docente", "")))
       .filter(n => !isNaN(n));
@@ -275,63 +413,94 @@ app.post("/addUsers", async (req, res) => {
       });
 
       await newUser.save();
-      createdUsers.push({ user: userName, password });
+      createdUsers.push({
+        user: userName,
+        password
+      });
       currentIndex++;
     }
 
-    res.status(200).json({ message: "Usuarios creados", createdUsers });
+    res.status(200).json({
+      message: "Usuarios creados",
+      createdUsers
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error al crear usuarios" });
+    res.status(500).json({
+      error: "Error al crear usuarios"
+    });
   }
 });
 app.get("/stats", async (req, res) => {
   try {
-      const respuestas = await Evaluation.find(); 
-      res.json(respuestas);
+    const respuestas = await Evaluation.find();
+    res.json(respuestas);
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 app.post("/cDocente", (req, res) => {
-  res.json({ success: true, redirectUrl: process.env.USER_CREATION });
+  res.json({
+    success: true,
+    redirectUrl: process.env.USER_CREATION
+  });
 });
 app.post("/rPrivate", (req, res) => {
-  res.json({ success: true, redirectUrl: process.env.RESULTS });
+  res.json({
+    success: true,
+    redirectUrl: process.env.RESULTS
+  });
 });
 app.get("/rPage", (req, res) => {
-  const name = req.query.name; 
+  const name = req.query.name;
 
   if (name) {
-      res.json({ 
-          success: true, 
-          redirectUrl: `/resumePage.html?name=${encodeURIComponent(name)}` 
-      });
+    res.json({
+      success: true,
+      redirectUrl: `/resumePage.html?name=${encodeURIComponent(name)}`
+    });
   } else {
-      res.json({ success: false, message: "Name is required" });
+    res.json({
+      success: false,
+      message: "Name is required"
+    });
   }
 });
 app.get('/get-resume', async (req, res) => {
   try {
-      const { name } = req.query;
+    const {
+      name
+    } = req.query;
 
-      if (!name) {
-          return res.status(400).json({ error: 'Name is required' });
-      }
-      const userName=name
+    if (!name) {
+      return res.status(400).json({
+        error: 'Name is required'
+      });
+    }
+    const userName = name
 
-      const resumeData = await Resume.findOne({ userName });
+    const resumeData = await Resume.findOne({
+      userName
+    });
 
-      if (!resumeData) {
-          return res.status(404).json({ error: 'Resume not found' });
-      }
+    if (!resumeData) {
+      return res.status(404).json({
+        error: 'Resume not found'
+      });
+    }
 
-      res.json({ data: resumeData });
+    res.json({
+      data: resumeData
+    });
   } catch (error) {
-      console.error("Error fetching resume:", error);
-      res.status(500).json({ error: error.message });
+    console.error("Error fetching resume:", error);
+    res.status(500).json({
+      error: error.message
+    });
   }
 });
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
