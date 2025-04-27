@@ -510,15 +510,15 @@ app.get('/get-resume', async (req, res) => {
 app.get('/get-resume2', async (req, res) => {
   try {
     const {
-      user1
+      name
     } = req.query;
 
-    if (!user1) {
+    if (!name) {
       return res.status(400).json({
         error: 'User is required'
       });
     }
-    const user = user1
+    const user = name
 
     const resumeData = await Resume.findOne({
       user
