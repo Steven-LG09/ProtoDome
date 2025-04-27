@@ -25,7 +25,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-        const user1 = getQueryParam("user1");
+        const user1 = getQueryParam("name");
 
         if (user1) {
             fetch(`https://protodome.onrender.com/get-resume2?name=${encodeURIComponent(user1)}`)
