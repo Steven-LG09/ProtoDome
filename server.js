@@ -145,37 +145,43 @@ app.post("/login2", async (req, res) => {
     });
   }
 
-  const {
-    user,
-    password
-  } = req.body;
+  const { user, password } = req.body;
 
   try {
-    const foundUser = await User.findOne({
-      user
-    });
+    const foundUser = await User.findOne({ user });
 
     if (!foundUser) {
       return res.status(400).json({
         success: false,
-        message: "Usuario o Contraseña Inválido"
+        message: "Usuario o Contraseña Inválido",
       });
     }
 
-    // Aquí usamos bcrypt para comparar la contraseña enviada vs la contraseña hasheada
     const isPasswordValid = await bcrypt.compare(password, foundUser.password);
 
     if (!isPasswordValid) {
       return res.status(400).json({
         success: false,
-        message: "Usuario o Contraseña Inválido"
+        message: "Usuario o Contraseña Inválido",
       });
     }
 
-    res.json({
-      success: true,
-      redirectUrl: process.env.CREATENTE
-    });
+    // 🔥 Ahora vamos a verificar si existe en la otra colección
+    const extraInfo = await Resume.findOne({ user: user });
+
+    if (extraInfo) {
+      // El usuario tiene información
+      return res.json({
+        success: true,
+        redirectUrl: process.env.DOCEMAIN, 
+      });
+    } else {
+      // No tiene información adicional
+      return res.json({
+        success: true,
+        redirectUrl: process.env.CREATENTE, 
+      });
+    }
 
   } catch (error) {
     console.error("Error en /login2:", error);
@@ -186,6 +192,7 @@ app.post("/login2", async (req, res) => {
     });
   }
 });
+
 app.post('/posthdv', upload.single("photo"), async (req, res) => {
   try {
     const {
