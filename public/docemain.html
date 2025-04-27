@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,109 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="icon" type="image/png" href="Images/assessment.png">
 </head>
+
 <body class="body2">
-    <h1>Test drive</h1>
+    <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
+    <h3 class="descrip animate__animated animate__fadeIn">Software Development Technology</h3>
+
+    <div id="resume-data" class="animate__animated animate__fadeInUp">
+        <h2 class="secondName">Loading...</h2>
+    </div>
+    <br>
+    <footer class="animate__animated animate__fadeInUp">Created by: Steve LóGi</footer>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        const user1 = getQueryParam("user1");
+
+        if (user1) {
+            fetch(`https://protodome.onrender.com/get-resume2?name=${encodeURIComponent(user1)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById("resume-data").textContent = data.error;
+                    } else {
+                        const resume = data.data;
+                        let fileUrl = resume.fileUrl.includes("drive.google.com")
+                            ? `https://drive.google.com/thumbnail?id=${resume.fileUrl.split('id=')[1]}&sz=w1000`
+                            : resume.fileUrl;
+
+                        document.getElementById("resume-data").innerHTML = `
+                        <div class="personalInfo2 animate__animated animate__zoomIn">
+                            <div class="photoH">
+                                <img src="${fileUrl || ''}" alt="photo HDV" class="mainPhoto animate__animated animate__fadeIn">
+                            </div>
+                            <div class="contentInfo2">
+                                <h2 class="secondName">Información Personal</h2>
+                                <div class="pInfo">
+                                    <div class="names3">
+                                        <p class="names2">Nombre</p>
+                                        <p class="names2">Teléfono</p>
+                                        <p class="names2">Email</p>
+                                        <p class="names2">CC</p>
+                                        <p class="names2">Genero</p>
+                                        <p class="names2">Nacionalidad</p>
+                                        <p class="names2">LinkedIn</p>
+                                    </div>
+                                    <div class="results2">
+                                        <p class="results2">${resume.userName || 'No name'}</p>
+                                        <p class="results2">${resume.phone || 'No phone'}</p>
+                                        <p class="results2">${resume.email || 'No email'}</p>
+                                        <p class="results2"><a href="${resume.file1 || '#'}" target="_blank">${resume.cedula || 'No CC'}</a></p>
+                                        <p class="results2">${resume.genre || 'No genre'}</p>
+                                        <p class="results2">${resume.nation || 'No nationality'}</p>
+                                        <p class="results2"><a href="#" onclick="checkLinkedIn(event, '${resume.linkedin}')">Profile</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <h2 class="secondName">Formación Académica</h2>
+                        <div class="listGenere"><p>  
+                            ${resume.studies?.map(v => `- Título como ${v.studyName} en ${v.placeName}.`).join('<br>') || "No studies available"}
+                        </p></div>
+    
+                        <h2 class="secondName">Experiencia Laboral</h2>
+                        <div class="listGenere"><p>  
+                            ${resume.jobs?.map(v => `- He trabajado en  ${v.companyName} ubicado en ${v.cityName}, el teléfono de la empresa es  ${v.phoneValue}, estuve durante  ${v.timeValue} meses, mi cargo fue ${v.roleName}, con este contrato: ${v.contractName}.`).join('<br><br>') || "No experience available"}
+                        </p></div>
+    
+                        <h2 class="secondName ">Idiomas</h2>
+                        <div class="listGenere"><p>  
+                            ${resume.languages?.map(v => `- Hablo ${v.languageName}, en el nivel  ${v.levelName}.`).join('<br>') || "No languages available"}
+                        </p></div>
+    
+                        <h2 class="secondName ">Habilidades Técnicas</h2>
+                        <div class="listGenere"><p>  
+                            ${resume.skills?.map(v => `- Tengo conocimiento en ${v.skillName}, en el nivel ${v.skillLevel}.`).join('<br>') || "No skills available"}
+                        </p></div>
+    
+                        <h2 class="secondName">Firma</h2>
+                        <div class="listGenere"><a href="${resume.signature || '#'}" target="_blank">Firma del docente<a/></div>
+                        <br>
+                        <button class="deleteBu animate__animated animate__shakeX animate_infinite">Eliminar Hoja de Vida</button>
+                    `;
+                    }
+                })
+                .catch(err => {
+                    document.getElementById("resume-data").textContent = "Error fetching data.";
+                });
+        } else {
+            document.getElementById('nameDisplay3').innerText = "Welcome, Guest!";
+        }
+
+        function checkLinkedIn(event, linkedin) {
+            if (!linkedin) {
+                event.preventDefault();
+                alert("El docente no ingresó su LinkedIn");
+            } else {
+                event.target.href = linkedin;
+            }
+        }
+    </script>
 </body>
+
 </html>

@@ -136,6 +136,7 @@ app.post("/login", async (req, res) => {
   }
 });
 app.post("/login2", async (req, res) => {
+  const user1 = req.query.user;
   const keys = Object.keys(req.body);
 
   if (keys.length !== 2 || !keys.includes("user") || !keys.includes("password")) {
@@ -173,7 +174,7 @@ app.post("/login2", async (req, res) => {
       // El usuario tiene información
       return res.json({
         success: true,
-        redirectUrl: process.env.DOCEMAIN, 
+        redirectUrl: `/docemain.html?name=${encodeURIComponent(user1)}`, 
       });
     } else {
       // No tiene información adicional
@@ -489,6 +490,39 @@ app.get('/get-resume', async (req, res) => {
 
     const resumeData = await Resume.findOne({
       userName
+    });
+
+    if (!resumeData) {
+      return res.status(404).json({
+        error: 'Resume not found'
+      });
+    }
+
+    res.json({
+      data: resumeData
+    });
+  } catch (error) {
+    console.error("Error fetching resume:", error);
+    res.status(500).json({
+      error: error.message
+    });
+  }
+});
+app.get('/get-resume2', async (req, res) => {
+  try {
+    const {
+      user1
+    } = req.query;
+
+    if (!user1) {
+      return res.status(400).json({
+        error: 'User is required'
+      });
+    }
+    const user = user1
+
+    const resumeData = await Resume.findOne({
+      user
     });
 
     if (!resumeData) {
