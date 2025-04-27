@@ -7,9 +7,13 @@ Here I built two projects, they're united in a system. A resume project for prof
 User: admin@dome.com
 Password: test2025
 
-- To Sign In like a Professor
+- To Sign In like a Professor with data in the system
 User: docente1
 Password: MFObbUuJ
+
+- To Sign In like a Professor for the first time
+User: docente2
+Password: goNs2kkI
 
 - To Sign In like a Student
 User: student@dome.com
