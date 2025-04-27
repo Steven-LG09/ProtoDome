@@ -136,7 +136,6 @@ app.post("/login", async (req, res) => {
   }
 });
 app.post("/login2", async (req, res) => {
-  const user1 = req.query.user;
   const keys = Object.keys(req.body);
 
   if (keys.length !== 2 || !keys.includes("user") || !keys.includes("password")) {
@@ -174,7 +173,7 @@ app.post("/login2", async (req, res) => {
       // El usuario tiene información
       return res.json({
         success: true,
-        redirectUrl: `/docemain.html?name=${encodeURIComponent(user1)}`, 
+        redirectUrl: `/docemain.html?name=${encodeURIComponent(user)}`, 
       });
     } else {
       // No tiene información adicional

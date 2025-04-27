@@ -25,7 +25,7 @@ export async function login() {
       alert("Usuario o Contraseña incorrecto")
     }
   } else {
-    const response = await fetch(`https://protodome.onrender.com/login2?name=${encodeURIComponent(user)}`, {
+    const response = await fetch(`https://protodome.onrender.com/login2`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
