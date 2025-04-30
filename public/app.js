@@ -59,6 +59,8 @@ export async function addData() {
   formData.append("photo", photo);
   formData.append("courseAC", academic);
 
+  console.log(formData);
+
   const response = await fetch('https://protodome.onrender.com/posthdv', {
     method: "POST",
     body: formData,
