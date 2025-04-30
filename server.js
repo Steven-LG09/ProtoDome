@@ -30,7 +30,8 @@ mongoose.connect(process.env.MONGO_URI)
 
 const resumeSchema = new mongoose.Schema({
   userName: String,
-  fileUrl: String
+  fileUrl: String,
+  program: String
 });
 const evaluationSchema = new mongoose.Schema({
   professor: String,
@@ -196,13 +197,13 @@ app.post("/login2", async (req, res) => {
 app.post('/posthdv', upload.single("photo"), async (req, res) => {
   try {
     const {
-      name
+      name,academic
     } = req.body;
 
     if (!req.file) return res.status(400).json({
       error: "No file uploaded"
     });
-    if (!name) return res.status(400).json({
+    if (!name || !academic) return res.status(400).json({
       error: "Missing required fields"
     });
 
@@ -228,7 +229,8 @@ app.post('/posthdv', upload.single("photo"), async (req, res) => {
 
     const newResume = new Resume({
       fileUrl: publicUrl,
-      userName: name
+      userName: name,
+      program: academic 
     });
     await newResume.save();
 

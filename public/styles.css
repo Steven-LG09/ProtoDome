@@ -329,6 +329,18 @@ background-color: white;
     font-size: 17px;
     text-align: center;
 }
+.courseAC{ /* used */
+    display: block;
+    font-family: 'Times New Roman', Times, serif;
+    border-color: #4F959D;
+    border-radius: 10px;
+    border-width: 0.1px;
+    color: #205781;
+    background-color: whitesmoke;
+    font-size: 17px;
+    text-align: center;
+    margin: 0 auto; 
+}
 .deleteAdd{
     font-family: 'Times New Roman', Times, serif;
     border-color: #809D3C;

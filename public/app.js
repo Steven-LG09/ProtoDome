@@ -49,6 +49,7 @@ export async function login() {
 export async function addData() {
   const name = document.getElementById("nombre").value;
   const photo = document.getElementById("photo").files[0];
+  const academic = document.getElementById("courseAC").value;
   const loadingMessage = document.getElementById("loadingMessage");
 
   loadingMessage.style.display = "block";
@@ -56,6 +57,7 @@ export async function addData() {
   const formData = new FormData();
   formData.append("name", name);
   formData.append("photo", photo);
+  formData.append("courseAC", academic);
 
   const response = await fetch('https://protodome.onrender.com/posthdv', {
     method: "POST",

@@ -20,10 +20,17 @@
         </div>
         <div class="block1l2">
             <input class="box2" type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre" required><br>
-            <input type="file" id="photo" name="photo" required>
+            <input type="file" id="photo" name="photo" required><br>
         </div>
     </div>
     <p id="error-message" class="errorFile"></p>
+    <select class="courseAC animate__animated animate__fadeInUp animate__delay-1s" id="courseAC" required>
+        <option selected disabled>Seleccione Un Programa Académico</option>
+        <option>Tecnología En Desarrollo De Software</option>
+        <option>Medicina</option>
+        <option>Ingenería Electrónica</option>
+    </select><br>
+
 
     <p id="loadingMessage" class="secondName animate__animated animate__flash" style="display: none;">Loading...</p>
     <button id="saveData" class="bCreate2 animate__animated animate__pulse animate__infinite">Enviar</button>
