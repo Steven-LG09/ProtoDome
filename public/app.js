@@ -54,14 +54,17 @@ export async function addData() {
 
   loadingMessage.style.display = "block";
 
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+  const user = getQueryParam("name");
+
   const formData = new FormData();
   formData.append("name", name);
   formData.append("photo", photo);
   formData.append("academic", academic);
-
-  console.log("Name:", name);
-console.log("Photo:", photo);
-console.log("Academic:", academic);
+  formData.append("user", user);
 
 
   const response = await fetch('https://protodome.onrender.com/posthdv', {
@@ -231,8 +234,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
           let message = "✅ Usuarios creados:\n\n";
           let fileContent = "Usuarios creados:\n\n";
-    
-          createdUsers.forEach(({ user, password }) => {
+
+          createdUsers.forEach(({
+            user,
+            password
+          }) => {
             const line = `👤 Usuario: ${user} | 🔑 Contraseña: ${password}\n`;
             message += line;
             fileContent += `Usuario: ${user} | Contraseña: ${password}\n`;
@@ -240,7 +246,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
           alert(message);
 
-          const blob = new Blob([fileContent], { type: "text/plain" });
+          const blob = new Blob([fileContent], {
+            type: "text/plain"
+          });
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;

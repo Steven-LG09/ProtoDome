@@ -31,7 +31,8 @@ mongoose.connect(process.env.MONGO_URI)
 const resumeSchema = new mongoose.Schema({
   userName: String,
   fileUrl: String,
-  program: String
+  program: String,
+  user: String
 });
 const evaluationSchema = new mongoose.Schema({
   professor: String,
@@ -146,10 +147,15 @@ app.post("/login2", async (req, res) => {
     });
   }
 
-  const { user, password } = req.body;
+  const {
+    user,
+    password
+  } = req.body;
 
   try {
-    const foundUser = await User.findOne({ user });
+    const foundUser = await User.findOne({
+      user
+    });
 
     if (!foundUser) {
       return res.status(400).json({
@@ -168,19 +174,21 @@ app.post("/login2", async (req, res) => {
     }
 
     // 🔥 Ahora vamos a verificar si existe en la otra colección
-    const extraInfo = await Resume.findOne({ user: user });
+    const extraInfo = await Resume.findOne({
+      user: user
+    });
 
     if (extraInfo) {
       // El usuario tiene información
       return res.json({
         success: true,
-        redirectUrl: `/docemain.html?name=${encodeURIComponent(user)}`, 
+        redirectUrl: `/docemain.html?name=${encodeURIComponent(user)}`,
       });
     } else {
       // No tiene información adicional
       return res.json({
         success: true,
-        redirectUrl: process.env.CREATENTE, 
+        redirectUrl: `/creatente.html?name=${encodeURIComponent(user)}`,
       });
     }
 
@@ -197,7 +205,9 @@ app.post("/login2", async (req, res) => {
 app.post('/posthdv', upload.single("photo"), async (req, res) => {
   try {
     const {
-      name,academic
+      name,
+      academic,
+      user
     } = req.body;
 
     if (!req.file) return res.status(400).json({
@@ -230,7 +240,8 @@ app.post('/posthdv', upload.single("photo"), async (req, res) => {
     const newResume = new Resume({
       fileUrl: publicUrl,
       userName: name,
-      program: academic 
+      program: academic,
+      user: user
     });
     await newResume.save();
 
