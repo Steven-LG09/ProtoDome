@@ -53,6 +53,23 @@
             evaPage();
         });
 
+        // Contador de docentes (total o filtrado)
+        function updateCount(programFilter = "Todos los programas") {
+            const query = programFilter !== "Todos los programas" ? `?program=${encodeURIComponent(programFilter)}` : "";
+
+            fetch(`https://protodome.onrender.com/count${query}`, {
+                method: "GET"
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("docCount").innerText = data.count;
+                })
+                .catch(error => {
+                    console.error("Error fetching document count:", error);
+                    document.getElementById("docCount").innerText = "Error";
+                });
+        }
+
         // Función para cargar docentes con filtro
         function loadDocentes(programFilter = "Todos los programas") {
             const query = programFilter !== "Todos los programas" ? `?program=${encodeURIComponent(programFilter)}` : "";
@@ -75,12 +92,12 @@
                             : product.fileUrl;
 
                         const myhtml = `
-            <div class="card animate__animated animate__zoomIn">
-              <img src="${fileUrl}" class="card-img-top" alt="error en imagen">
-              <p class="card-title">${product.userName}</p>
-              <button class="buttonPro animate__animated animate__pulse animate__infinite" style="margin-right: 5%; margin-top: 10px" onclick="rePage('${product.userName}')">Ver más</button>
-            </div>
-          `;
+                            <div class="card animate__animated animate__zoomIn">
+                                <img src="${fileUrl}" class="card-img-top" alt="error en imagen">
+                                <p class="card-title">${product.userName}</p>
+                                <button class="buttonPro animate__animated animate__pulse animate__infinite" style="margin-right: 5%; margin-top: 10px" onclick="rePage('${product.userName}')">Ver más</button>
+                            </div>
+                        `;
                         li.innerHTML = myhtml;
                         list.appendChild(li);
                     });
@@ -90,36 +107,19 @@
                     document.getElementById("list").innerHTML = "<p style='text-align: center;'>No se encontraron docentes.</p>";
                 });
         }
-        updateCount(programFilter);
 
-        // Cargar docentes al entrar
-        loadDocentes();
-        updateCount();
-
-        // Cambiar filtro al seleccionar opción
+        // Al cambiar opción en el select
         document.getElementById("courseAC").addEventListener("change", (e) => {
-            loadDocentes(e.target.value);
+            const selectedProgram = e.target.value;
+            loadDocentes(selectedProgram);
+            updateCount(selectedProgram);
         });
 
-        // Contador de docentes (total)
-        function updateCount(programFilter = "Todos los programas") {
-            const query = programFilter !== "Todos los programas" ? `?program=${encodeURIComponent(programFilter)}` : "";
-
-            fetch(`https://protodome.onrender.com/count${query}`, {
-                method: "GET"
-            })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("docCount").innerText = data.count;
-                })
-                .catch(error => {
-                    console.error("Error fetching document count:", error);
-                    document.getElementById("docCount").innerText = "Error";
-                });
-        }
-
-
+        // Cargar docentes y contador al iniciar
+        loadDocentes();
+        updateCount();
     </script>
+
 </body>
 
 </html>
