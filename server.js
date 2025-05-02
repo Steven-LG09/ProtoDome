@@ -280,7 +280,24 @@ app.get("/qualiMe", async (req, res) => {
     });
   }
 });
+app.get("/qualiMe2", async (req, res) => {
+  try {
+    const resumes = await Resume.find({}, "userName fileUrl -_id");
 
+    if (resumes.length === 0) {
+      return res.status(404).json({
+        message: "No resumes found"
+      });
+    }
+
+    res.json(resumes);
+  } catch (error) {
+    console.error("Error fetching resumes:", error);
+    res.status(500).json({
+      error: "Failed to fetch resumes"
+    });
+  }
+});
 app.get('/sPage', (req, res) => {
   const name = req.query.name;
 

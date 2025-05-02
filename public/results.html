@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,65 +9,87 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="icon" href="Images/assessment.png" type="image/png">
 </head>
+
 <body class="body2">
     <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
     <h3 class="descrip animate__animated animate__fadeIn">Desempeño, Observación, Medición y Evaluación</h3>
     <h3 class="secondName2 animate__animated animate__fadeIn">Resultados de Evaluación Docente</h3>
-    <h4 class="titleMain animate__animated animate__fadeInUp" style="text-align: center;">Número de Evaluaciones Realizadas: <span id="docCount2">Loading...</span></h4>
+    <h4 class="titleMain animate__animated animate__fadeInUp" style="text-align: center;">Número de Evaluaciones
+        Realizadas: <span id="docCount2">Loading...</span></h4>
+    <select class="courseAC animate__animated animate__fadeInUp animate__delay-1s" id="courseAC" required>
+        <option>Todos los programas</option>
+        <option>Tecnología En Desarrollo De Software</option>
+        <option>Medicina</option>
+        <option>Ingenería Electrónica</option>
+    </select><br>
     <div id="list3" class="resultsEva animate__animated animate__zoomIn"></div>
     <br>
     <footer class="animate__animated animate__fadeInUp">Created by: Steve LóGi</footer>
     <script>
-        fetch('https://protodome.onrender.com/qualiMe',{
-            method: "GET",
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch resumes");
-            }
-            return response.json();
+        function loadFilteredResults(programFilter = "Todos los programas") {
+            const query = programFilter !== "Todos los programas" ? `?program=${encodeURIComponent(programFilter)}` : "";
+
+            fetch(`https://protodome.onrender.com/qualiMe${query}`, {
+                method: "GET",
             })
-        .then((data) => {
-            const list = document.getElementById("list3");
-            
-            data.forEach(product => {
-            const li = document.createElement("li");
-            let fileUrl = product.fileUrl.includes("drive.google.com") 
-                ? `https://drive.google.com/thumbnail?id=${product.fileUrl.split('id=')[1]}&sz=w1000` 
-                : product.fileUrl; 
-            const myhtml = ` 
-                <div class="resultsBlock animate__animated animate__fadeInUp">
-                    <div class="photoBlock">
-                        <img class="resultsPhoto" src="${fileUrl}" alt="proPhoto">
-                    </div>
-                    <div class="nameBlock">
-                        <p class="resultsName">${product.userName}</p>
-                    </div>
-                    <div class="mobileBlock">
-                        <div class="noteBlock">
-                        <button class="resultsButton animate__animated animate__pulse animate__infinite" onclick="staPage('${product.userName}')">
-                            <img src="Images/qualification.png">
-                        </button>
+                .then((response) => {
+                    if (!response.ok) throw new Error("Failed to fetch resumes");
+                    return response.json();
+                })
+                .then((data) => {
+                    const list = document.getElementById("list3");
+                    list.innerHTML = ""; // Limpia la lista antes de mostrar resultados nuevos
+
+                    data.forEach(product => {
+                        const li = document.createElement("li");
+                        let fileUrl = product.fileUrl.includes("drive.google.com")
+                            ? `https://drive.google.com/thumbnail?id=${product.fileUrl.split('id=')[1]}&sz=w1000`
+                            : product.fileUrl;
+
+                        const myhtml = `
+                    <div class="resultsBlock animate__animated animate__fadeInUp">
+                        <div class="photoBlock">
+                            <img class="resultsPhoto" src="${fileUrl}" alt="proPhoto">
                         </div>
-                        <div class="messagesBlock">
-                        <button class="resultsButton animate__animated animate__pulse animate__infinite" onclick="obsPage('${product.userName}')">
-                            <img src="Images/comments.png">
-                        </button>
+                        <div class="nameBlock">
+                            <p class="resultsName">${product.userName}</p>
+                        </div>
+                        <div class="mobileBlock">
+                            <div class="noteBlock">
+                                <button class="resultsButton animate__animated animate__pulse animate__infinite" onclick="staPage('${product.userName}')">
+                                    <img src="Images/qualification.png">
+                                </button>
+                            </div>
+                            <div class="messagesBlock">
+                                <button class="resultsButton animate__animated animate__pulse animate__infinite" onclick="obsPage('${product.userName}')">
+                                    <img src="Images/comments.png">
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-            li.innerHTML = myhtml;
-            list.appendChild(li);
-            });
-        })
+                `;
+                        li.innerHTML = myhtml;
+                        list.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching resumes:", error);
+                    document.getElementById("list3").innerHTML = "<p style='text-align: center;'>No se encontraron docentes.</p>";
+                });
+        }
+        loadFilteredResults(); // Al cargar la página
+
+        document.getElementById("courseAC").addEventListener("change", (e) => {
+            loadFilteredResults(e.target.value);
+        });
+
         async function staPage(name) {
             try {
-                const response = await fetch(`https://protodome.onrender.com/sPage?name=${encodeURIComponent(name)}`, { 
+                const response = await fetch(`https://protodome.onrender.com/sPage?name=${encodeURIComponent(name)}`, {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json',}
+                    headers: { 'Content-Type': 'application/json', }
                 });
-        
+
                 const data = await response.json();
                 if (data.success) {
                     window.location.href = data.redirectUrl;
@@ -78,13 +101,13 @@
             }
         }
         window.staPage = staPage;
-        async function obsPage(name){
+        async function obsPage(name) {
             try {
-                const response = await fetch(`https://protodome.onrender.com/oPage?name=${encodeURIComponent(name)}`, { 
+                const response = await fetch(`https://protodome.onrender.com/oPage?name=${encodeURIComponent(name)}`, {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json',}
+                    headers: { 'Content-Type': 'application/json', }
                 });
-        
+
                 const data = await response.json();
                 if (data.success) {
                     window.location.href = data.redirectUrl;
@@ -97,17 +120,18 @@
         }
         window.obsPage = obsPage;
 
-        fetch('https://protodome.onrender.com/count2',{
+        fetch('https://protodome.onrender.com/count2', {
             method: "GET",
         })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("docCount2").innerText = data.count;
-        })
-        .catch(error => {
-            console.error("Error fetching document count:", error);
-            document.getElementById("docCount2").innerText = "Error";
-        });
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("docCount2").innerText = data.count;
+            })
+            .catch(error => {
+                console.error("Error fetching document count:", error);
+                document.getElementById("docCount2").innerText = "Error";
+            });
     </script>
 </body>
+
 </html>
