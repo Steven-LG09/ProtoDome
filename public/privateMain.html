@@ -1,82 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TechSoftware</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="Images/assessment.png" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="Images/assessment.png" type="image/png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
+
 <body class="body3">
     <h1 class="mainName animate__animated animate__fadeInDown">DOME</h1>
     <h3 class="descrip animate__animated animate__fadeInUp">Desempeño, Observación, Medición y Evaluación</h3>
+
     <div class="headerHDV animate__animated animate__fadeIn">
         <div class="headerBlock">
-            <button class="headButton animate__animated animate__pulse animate__infinite" id="createPage">Crear Usuario</button>
+            <button class="headButton animate__animated animate__pulse animate__infinite" id="createPage">Crear
+                Usuario</button>
         </div>
         <div class="headerBlock">
             <h2 class="titleMain animate__animated animate__fadeIn">Hojas de vida Docentes</h2>
         </div>
         <div class="headerBlock">
-            <button class="headButton animate__animated animate__pulse animate__infinite" id="evaPage">Sistema de Evaluaciones</button>
+            <button class="headButton animate__animated animate__pulse animate__infinite" id="evaPage">Sistema de
+                Evaluaciones</button>
         </div>
     </div>
-    <h4 class="titleMain animate__animated animate__fadeIn" style="text-align: center;">Número de Docentes: <span id="docCount">Loading...</span></h4>
+
+    <div style="text-align: center; margin-top: 15px;">
+        <select class="courseAC animate__animated animate__fadeInUp animate__delay-1s" id="courseAC" required>
+            <option>Todos los programas</option>
+            <option>Tecnología En Desarrollo De Software</option>
+            <option>Medicina</option>
+            <option>Ingenería Electrónica</option>
+        </select>
+    </div>
+
+    <h4 class="titleMain animate__animated animate__fadeIn" style="text-align: center;">Número de Docentes: <span
+            id="docCount">Loading...</span></h4>
     <div id="list" class="adds animate__animated animate__fadeIn"></div>
-    <br>
+    <br />
     <footer class="animate__animated animate__fadeInUp">Created by: Steve LóGi</footer>
+
     <script type="module">
-        import { createPage, evaPage} from "/app.js";
+        import { createPage, evaPage } from "/app.js";
 
         document.getElementById("createPage").addEventListener("click", () => {
-          createPage();
+            createPage();
         });
         document.getElementById("evaPage").addEventListener("click", () => {
-          evaPage();
+            evaPage();
         });
-        
-        fetch('https://protodome.onrender.com/qualiMe', {
-            method: "GET",
-        })
-        .then((response) => {
-        if (!response.ok) {
-            throw new Error("Failed to fetch resumes");
-        }
-        return response.json();
-        })
-        .then((data) => {
-            const list = document.getElementById("list");
-            
-            data.forEach(product => {
-            const li = document.createElement("li");
-            let fileUrl = product.fileUrl.includes("drive.google.com") 
-                ? `https://drive.google.com/thumbnail?id=${product.fileUrl.split('id=')[1]}&sz=w1000` 
-                : product.fileUrl; 
-            const myhtml = ` 
-                <div class="card animate__animated animate__zoomIn">
-                    <img src="${fileUrl}" class="card-img-top" alt="error en imagen">
-                    <p class="card-title">${product.userName}</p>
-                    <button class="buttonPro animate__animated animate__pulse animate__infinite" style="margin-right: 5%; margin-top: 10px" onclick="rePage('${product.userName}')">Ver más</button>
-                </div>
-            `;
-            li.innerHTML = myhtml;
-            list.appendChild(li);
-            });
-        })
-        .catch(error => console.error("Error fetching resumes:", error));
 
-        fetch('https://protodome.onrender.com/count', {
-            method: "GET",
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("docCount").innerText = data.count;
-        })
-        .catch(error => {
-            console.error("Error fetching document count:", error);
-            document.getElementById("docCount").innerText = "Error";
+        // Función para cargar docentes con filtro
+        function loadDocentes(programFilter = "Todos los programas") {
+            const query = programFilter !== "Todos los programas" ? `?program=${encodeURIComponent(programFilter)}` : "";
+
+            fetch(`https://protodome.onrender.com/qualiMe${query}`, {
+                method: "GET",
+            })
+                .then((response) => {
+                    if (!response.ok) throw new Error("Failed to fetch resumes");
+                    return response.json();
+                })
+                .then((data) => {
+                    const list = document.getElementById("list");
+                    list.innerHTML = "";
+
+                    data.forEach(product => {
+                        const li = document.createElement("li");
+                        let fileUrl = product.fileUrl.includes("drive.google.com")
+                            ? `https://drive.google.com/thumbnail?id=${product.fileUrl.split('id=')[1]}&sz=w1000`
+                            : product.fileUrl;
+
+                        const myhtml = `
+            <div class="card animate__animated animate__zoomIn">
+              <img src="${fileUrl}" class="card-img-top" alt="error en imagen">
+              <p class="card-title">${product.userName}</p>
+              <button class="buttonPro animate__animated animate__pulse animate__infinite" style="margin-right: 5%; margin-top: 10px" onclick="rePage('${product.userName}')">Ver más</button>
+            </div>
+          `;
+                        li.innerHTML = myhtml;
+                        list.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching resumes:", error);
+                    document.getElementById("list").innerHTML = "<p style='text-align: center;'>No se encontraron docentes.</p>";
+                });
+        }
+        updateCount(programFilter);
+
+        // Cargar docentes al entrar
+        loadDocentes();
+        updateCount();
+
+        // Cambiar filtro al seleccionar opción
+        document.getElementById("courseAC").addEventListener("change", (e) => {
+            loadDocentes(e.target.value);
         });
+
+        // Contador de docentes (total)
+        function updateCount(programFilter = "Todos los programas") {
+            const query = programFilter !== "Todos los programas" ? `?program=${encodeURIComponent(programFilter)}` : "";
+
+            fetch(`https://protodome.onrender.com/count${query}`, {
+                method: "GET"
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("docCount").innerText = data.count;
+                })
+                .catch(error => {
+                    console.error("Error fetching document count:", error);
+                    document.getElementById("docCount").innerText = "Error";
+                });
+        }
+
+
     </script>
 </body>
+
 </html>

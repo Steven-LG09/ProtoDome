@@ -260,7 +260,11 @@ app.post('/posthdv', upload.single("photo"), async (req, res) => {
 });
 app.get("/qualiMe", async (req, res) => {
   try {
-    const resumes = await Resume.find({}, "userName fileUrl -_id");
+    const { program } = req.query;
+
+    const filter = program && program !== "Todos los programas" ? { program } : {};
+
+    const resumes = await Resume.find(filter, "userName fileUrl -_id");
 
     if (resumes.length === 0) {
       return res.status(404).json({
@@ -276,6 +280,7 @@ app.get("/qualiMe", async (req, res) => {
     });
   }
 });
+
 app.get('/sPage', (req, res) => {
   const name = req.query.name;
 
