@@ -374,16 +374,15 @@ app.post('/postEva', async (req, res) => {
 });
 app.get("/count", async (req, res) => {
   try {
-    const count = await Resume.countDocuments();
-    res.json({
-      count
-    });
+    const { program } = req.query;
+    const filter = program && program !== "Todos los programas" ? { program } : {};
+    const count = await Resume.countDocuments(filter);
+    res.json({ count });
   } catch (error) {
-    res.status(500).json({
-      error: error.message
-    });
+    res.status(500).json({ error: error.message });
   }
 });
+
 app.get("/count2", async (req, res) => {
   try {
     const count = await Evaluation.countDocuments();
