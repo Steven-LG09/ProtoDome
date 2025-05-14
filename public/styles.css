@@ -59,8 +59,8 @@ form{
 .thirdName{
     text-align: center;
     font-family: 'Times New Roman', Times, serif;
-    color: #3A7D44;
-    text-shadow: 3px 3px 5px #809D3C ;
+    color: #205781;
+    text-shadow: 3px 3px 5px #4F959D ;
     font-size: 25px;
 }
 .descrip{ /* used */
@@ -101,6 +101,12 @@ form{
     text-shadow: 3px 3px 5px #4F959D ;
     margin-bottom: 3px;
 }
+.loginT4{ /* used */
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(39, 37, 37);
+    text-shadow: 3px 3px 5px #4F959D ;
+    text-align: center;
+}
 .loginMain{
     display: none;
     font-family: 'Times New Roman', Times, serif;
@@ -124,7 +130,7 @@ form{
 .loginT3{
     font-family: 'Times New Roman', Times, serif;
     color: rgb(39, 37, 37);
-    text-shadow: 3px 3px 5px #809D3C ;
+    text-shadow: 3px 3px 5px #4F959D ;
 }
 .box{ /* used */
     border-radius: 15px;
@@ -301,10 +307,10 @@ background-color: white;
 }
 .genreS{
     font-family: 'Times New Roman', Times, serif;
-    border-color: #809D3C;
+    border-color: #205781;
     border-radius: 10px;
     border-width: 0.1px;
-    color: #3A7D44;
+    color: #205781;
     background-color: whitesmoke;
     font-size: 15px;
     text-align: center;
